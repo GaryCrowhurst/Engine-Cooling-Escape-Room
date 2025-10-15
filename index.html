@@ -1,0 +1,1685 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+  <title>Cooling System Escape • Thermal Lab Edition</title>
+  <style>
+    :root{
+      /* Defaults = Playful Workshop */
+      --bg:#f8fafc;
+      --panel:#ffffff;
+      --ink:#1f2937;
+      --muted:#6b7280;
+      --accent:#6a5cff;
+      --good:#16a34a;
+      --bad:#ef4444;
+      --warn:#f59e0b;
+      /* Themed surfaces */
+      --bg-gradient: radial-gradient(900px 600px at 90% -10%, rgba(106,92,255,.12), transparent 60%),
+        radial-gradient(700px 500px at 10% 110%, rgba(0,224,163,.12), transparent 60%),
+        linear-gradient(180deg,#f8fafc 0%, #ffffff 50%, #f4f7fb 100%);
+      --panel-bg: linear-gradient(180deg,rgba(255,255,255,.96),rgba(255,255,255,.96));
+      --panel-border: rgba(31,41,55,.08);
+      --card-bg:#ffffff;
+      --diagram-border: rgba(106,92,255,.28);
+      --badge-bg: rgba(106,92,255,.08);
+      --badge-border: rgba(106,92,255,.18);
+      --badge-ink: #4338ca;
+      --token-bg: rgba(106,92,255,.08);
+      --token-border: rgba(17,24,39,.15);
+      --btn1:#6a5cff; --btn2:#00d1b0; --btn-ink:#ffffff;
+      --progress-gradient: linear-gradient(90deg,#6a5cff,#00c2ff,#22c55e);
+      --dialog-bg: linear-gradient(180deg,#ffffff,#ffffff);
+    }
+
+    :root[data-theme="icy"]{
+      --bg:#08131a;
+      --panel:#0c1c26;
+      --ink:#e8f7ff;
+      --muted:#a9c7d8;
+      --accent:#7ee0ff;
+      --good:#4de0c9;
+      --bad:#ff517e;
+      --warn:#ffd27f;
+      --bg-gradient: radial-gradient(900px 600px at 90% -10%, rgba(126,224,255,.18), transparent 60%),
+        radial-gradient(700px 500px at 10% 110%, rgba(84,196,255,.12), transparent 60%),
+        linear-gradient(180deg,#0a131a 0%, #0a1620 50%, #071019 100%);
+      --panel-bg: linear-gradient(180deg,rgba(126,224,255,.07),rgba(0,0,0,.12));
+      --panel-border: rgba(126,224,255,.22);
+      --card-bg:#0c1b24;
+      --diagram-border: rgba(126,224,255,.28);
+      --badge-bg: rgba(9,28,38,.8);
+      --badge-border: rgba(126,224,255,.22);
+      --badge-ink: var(--muted);
+      --token-bg: rgba(106,227,255,.08);
+      --token-border: rgba(255,255,255,.35);
+      --btn1:#12b5e5; --btn2:#02a3d9; --btn-ink:#ffffff;
+      --progress-gradient: linear-gradient(90deg,#00e1ff,#61e4ff,#4de0c9);
+      --dialog-bg: linear-gradient(180deg,#0f2430,#0a1a23);
+    }
+
+    :root[data-theme="thermal"]{
+      --bg:#120909;
+      --panel:#1a1010;
+      --ink:#fff2e8;
+      --muted:#f1c5b5;
+      --accent:#ff8a4c;
+      --good:#52f091;
+      --bad:#ff3b5c;
+      --warn:#ffd166;
+      --bg-gradient: radial-gradient(900px 600px at 90% -10%, rgba(255,138,76,.18), transparent 60%),
+        radial-gradient(700px 500px at 10% 110%, rgba(255,99,71,.12), transparent 60%),
+        linear-gradient(180deg,#140909 0%, #1a0e0d 50%, #100707 100%);
+      --panel-bg: linear-gradient(180deg,rgba(255,138,76,.07),rgba(0,0,0,.12));
+      --panel-border: rgba(255,138,76,.22);
+      --card-bg:#1a0e0f;
+      --diagram-border: rgba(255,138,76,.28);
+      --badge-bg: rgba(40,10,10,.8);
+      --badge-border: rgba(255,138,76,.22);
+      --badge-ink: var(--muted);
+      --token-bg: rgba(255,138,76,.08);
+      --token-border: rgba(255,255,255,.25);
+      --btn1:#ff5f6d; --btn2:#ffc371; --btn-ink:#2a0e0e;
+      --progress-gradient: linear-gradient(90deg,#ff6d5f,#ff9e6e,#ffd166);
+      --dialog-bg: linear-gradient(180deg,#2a1210,#170a0a);
+    }
+    *{box-sizing:border-box}
+    body{margin:0;color:var(--ink);font:16px/1.45 system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,"Helvetica Neue",Arial;min-height:100vh;
+      background: var(--bg-gradient);
+    }
+    h1,h2,h3{line-height:1.1;margin:0 0 .35rem}
+    h1{font-size:clamp(24px,3vw,36px)}
+    h2{font-size:clamp(18px,2.2vw,24px);color:#dce3ff}
+    .wrap{max-width:1200px;margin:auto;padding:20px}
+    .grid{display:grid;gap:16px}
+    .cols{grid-template-columns:repeat(auto-fit,minmax(300px,1fr))}
+    
+    .panel{
+      background:var(--panel-bg);
+      border:1px solid var(--panel-border);
+      border-radius:16px;
+      padding:20px;
+      box-shadow:0 10px 30px rgba(31,41,55,.06);
+      transition:transform .3s ease, box-shadow .3s ease, border-color .2s ease;
+    }
+    
+  .panel:hover{transform:translateY(-2px);box-shadow:0 16px 40px rgba(31,41,55,.12);border-color:rgba(106,92,255,.25)}
+    
+    .task-card{position:relative;overflow:hidden;padding-bottom:48px}
+    .task-card::before{
+      content:'';position:absolute;top:0;left:0;right:0;height:3px;
+      background:linear-gradient(90deg,transparent,var(--accent),transparent);
+      opacity:0;transition:opacity .3s;
+    }
+    .task-card:hover::before{opacity:1}
+    .task-card.solved{border-color:var(--good);background:linear-gradient(180deg,rgba(61,227,135,.08),rgba(0,0,0,.08))}
+    .task-card.solved::after{
+      content:'✓';position:absolute;top:12px;left:12px;
+      width:32px;height:32px;border-radius:50%;
+      background:var(--good);color:#000;
+      display:grid;place-items:center;font-weight:900;font-size:20px;
+      animation:pop .5s cubic-bezier(.68,-0.55,.265,1.55);
+    }
+    
+    @keyframes pop{from{transform:scale(0) rotate(-180deg)}to{transform:scale(1) rotate(0)}}
+    @keyframes slideIn{from{opacity:0;transform:translateY(-10px)}to{opacity:1;transform:translateY(0)}}
+    @keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.05)}}
+    @keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-10px)}75%{transform:translateX(10px)}}
+    
+    .btn{
+      cursor:pointer;border:none;padding:.75rem 1.25rem;border-radius:14px;
+      background:linear-gradient(135deg,var(--btn1),var(--btn2));color:var(--btn-ink);
+      font-weight:800;letter-spacing:.3px;font-size:15px;
+      transition:all .2s;box-shadow:0 8px 18px rgba(106,92,255,.25);
+    }
+    .btn:hover:not(:disabled){transform:translateY(-2px);box-shadow:0 10px 26px rgba(106,92,255,.35)}
+    .btn:active:not(:disabled){transform:translateY(0)}
+  .btn.secondary{background:linear-gradient(135deg,#f3f4f6,#e5e7eb);box-shadow:0 4px 12px rgba(31,41,55,.1);color:#111827}
+  .btn.ghost{background:transparent;border:1px solid var(--accent);box-shadow:none;color:var(--ink)}
+  .btn.ghost:hover:not(:disabled){background:rgba(0,0,0,.04)}
+    .btn:disabled{opacity:.4;cursor:not-allowed;transform:none!important}
+    
+    .badge{
+      display:inline-flex;gap:.5ch;align-items:center;padding:.4rem .7rem;
+      border-radius:999px;background:var(--badge-bg);
+      border:1px solid var(--badge-border);font-size:13px;color:var(--badge-ink);
+      box-shadow:0 2px 8px rgba(31,41,55,.08);
+    }
+    
+    .hint{font-size:14px;color:var(--muted);animation:slideIn .3s ease}
+    
+    input,select{
+      background:var(--panel);color:var(--ink);
+      border:1px solid var(--panel-border);border-radius:10px;
+      padding:.7rem .8rem;font-size:15px;transition:all .2s;
+    }
+    input:focus,select:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px rgba(106,92,255,.18)}
+    input[type="number"]{width:140px}
+    input.error{border-color:var(--bad);animation:shake .3s}
+    input.input-ok{border-color:var(--good);background:rgba(61,227,135,.06);box-shadow:0 4px 14px rgba(61,227,135,.06)}
+    
+    .ok{color:var(--good);font-weight:600}
+    .no{color:var(--bad);font-weight:600}
+    .warn{color:var(--warn);font-weight:600}
+    
+    .progress{
+      height:12px;background:#0a1620;border-radius:999px;overflow:hidden;
+      border:1px solid rgba(126,224,255,.22);position:relative;
+    }
+    .progress>i{
+      display:block;height:100%;
+      background:var(--progress-gradient);
+      width:0%;transition:width .5s cubic-bezier(.68,-0.55,.265,1.55);
+      box-shadow:0 0 10px rgba(106,92,255,.25);
+    }
+    
+    .mono{font-family:ui-monospace,SFMono-Regular,Consolas,"Liberation Mono",Menlo,monospace}
+    
+    .token{
+      position:absolute;right:14px;bottom:14px;
+      display:inline-flex;align-items:center;gap:.4rem;padding:.35rem .65rem;
+      border-radius:999px;border:2px dashed var(--token-border);
+      font-size:13px;background:var(--token-bg);font-weight:700;color:var(--ink);
+      backdrop-filter:blur(6px);
+    }
+    
+    .row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+    
+    .car-diagram{
+      border:2px solid var(--diagram-border);border-radius:14px;padding:20px;
+      background:var(--card-bg);text-align:center;transition:all .2s;
+    }
+    .car-diagram:hover{transform:scale(1.02)}
+    
+    dialog{
+      border:none;border-radius:18px;
+      background:var(--dialog-bg);
+      color:var(--ink);max-width:700px;padding:32px;
+      box-shadow:0 20px 60px rgba(31,41,55,.15);
+    }
+    dialog::backdrop{background:rgba(0,0,0,.7);backdrop-filter:blur(4px)}
+    
+    .tiny{font-size:12px;color:var(--muted);line-height:1.5}
+    
+    .confetti{
+      position:fixed;width:10px;height:10px;pointer-events:none;
+      animation:confettiFall 3s linear forwards;z-index:1000;
+    }
+    @keyframes confettiFall{
+      to{transform:translateY(100vh) rotate(720deg);opacity:0}
+    }
+    
+    .header-badge{
+      background:linear-gradient(135deg,rgba(126,224,255,.16),rgba(77,224,201,.12));
+      border:2px solid rgba(126,224,255,.35);padding:.5rem 1rem;
+      border-radius:12px;font-weight:600;
+    }
+    
+    details{margin-top:20px}
+    summary{cursor:pointer;padding:12px;background:rgba(255,255,255,.03);border-radius:10px;font-weight:600;user-select:none}
+    summary:hover{background:rgba(255,255,255,.06)}
+    
+    .lockout-overlay{
+      position:fixed;inset:0;background:rgba(0,0,0,.9);backdrop-filter:blur(8px);
+      display:grid;place-items:center;z-index:2000;animation:slideIn .3s;
+    }
+    .lockout-box{
+      background:linear-gradient(180deg,#ffffff,#ffffff);
+      border:2px solid var(--warn);border-radius:20px;padding:40px;
+      max-width:500px;text-align:center;box-shadow:0 20px 80px rgba(245,158,11,.25);
+    }
+    .lockout-timer{font-size:72px;font-weight:900;color:var(--bad);font-family:monospace;margin:20px 0}
+    
+    .penalty-badge{
+      background:rgba(255,106,122,.15);border:2px solid var(--bad);
+      padding:.3rem .6rem;border-radius:999px;font-size:12px;font-weight:700;
+      color:var(--bad);display:inline-flex;align-items:center;gap:.3rem;
+    }
+
+  /* Task 15 specific styles */
+    .t15-container{
+      display:grid;
+      grid-template-columns:minmax(120px,1fr) minmax(300px,2fr) minmax(120px,1fr);
+      gap:20px;
+      margin-top:16px;
+    }
+    .t15-column{
+      display:flex;
+      flex-direction:column;
+      gap:8px;
+    }
+    .t15-column label{
+      font-size:14px;
+      display:flex;
+      flex-direction:column;
+      gap:4px;
+    }
+    .t15-column input{
+      width:100%;
+      font-size:14px;
+      padding:.6rem;
+    }
+    .t15-center{
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+    }
+    .t15-diagram{
+      border-radius:10px;
+      overflow:hidden;
+      border:2px solid var(--diagram-border);
+      background:var(--card-bg);
+      max-width:500px;
+    }
+    .t15-diagram img{
+      width:100%;
+      display:block;
+    }
+    
+    @media(max-width:1024px){
+      .t15-container{
+        grid-template-columns:1fr;
+        gap:16px;
+      }
+      .t15-center{
+        order:-1;
+      }
+    }
+
+  @media(max-width:768px){
+      .wrap{padding:16px}
+      h1{font-size:22px}
+      h2{font-size:18px}
+      .cols{grid-template-columns:1fr}
+      .lockout-timer{font-size:56px}
+      .panel{padding:16px}
+      .task-card{padding-bottom:40px}
+      .btn{padding:.65rem 1rem;font-size:14px}
+      input,select{font-size:14px;padding:.6rem .7rem}
+      .car-diagram{padding:12px}
+      .header-badge{padding:.4rem .8rem;font-size:12px}
+      .badge{font-size:12px;padding:.3rem .6rem}
+      dialog{padding:24px;max-width:90vw}
+      .t15-column label{font-size:13px}
+      .t15-column input{font-size:13px}
+      .task-card[style*="grid-column:span"]{
+        grid-column:1 !important;
+      }
+    }
+
+    /* Match inline SVG cold-blue accents to new theme */
+    .t15-diagram svg [stroke="#6ae3ff"],
+    .t15-diagram svg [fill="#6ae3ff"],
+    .car-diagram svg [stroke="#6ae3ff"],
+    .car-diagram svg [fill="#6ae3ff"]{
+      stroke: var(--accent) !important;
+      fill: var(--accent) !important;
+    }
+
+    @media(max-width:480px){
+      .wrap{padding:12px}
+      h1{font-size:20px}
+      h2{font-size:16px}
+      .panel{padding:12px}
+      .btn{padding:.55rem .85rem;font-size:13px}
+      input,select{font-size:13px;padding:.5rem .6rem}
+      input[type="number"]{width:120px}
+      .row{gap:8px}
+      .grid{gap:12px}
+      .token{font-size:11px;padding:.3rem .5rem}
+      .lockout-timer{font-size:48px}
+      .lockout-box{padding:24px}
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap grid" style="gap:24px">
+    <header class="panel grid" style="gap:12px">
+      <div class="row" style="justify-content:space-between;flex-wrap:wrap">
+        <div>
+          <h1>🌡️ Cooling System Escape</h1>
+          <div class="badge" style="margin-top:8px">
+            <span style="font-size:16px">🎮</span>
+            <span>Playful Workshop — Learn by Solving!</span>
+          </div>
+        </div>
+        <div class="row" style="gap:8px;flex-wrap:wrap">
+          <button class="btn ghost" id="openGuide">📖 Reference Guide</button>
+          <select id="themeSelect" title="Theme" style="min-width:160px">
+            <option value="playful">🎨 Playful Workshop</option>
+            <option value="icy">❄️ Icy Cooling</option>
+            <option value="thermal">🔥 Thermal Lab</option>
+          </select>
+        </div>
+      </div>
+  <p class="hint" style="max-width:900px">Crack the tasks, earn <b>6 OTP digits</b>, and unlock the final code. Make mistakes? No stress—keep learning! <span class="warn">Heads up: wrong answers add small time penalties.</span></p>
+      <div class="progress"><i id="bar"></i></div>
+      <div class="row" style="gap:12px;flex-wrap:wrap">
+        <span class="badge header-badge">Tasks: <b class="mono" id="solved">0/15</b></span>
+        <span class="badge header-badge">OTP Collected: <b class="mono" id="otp" style="letter-spacing:2px">______</b></span>
+        <span class="badge header-badge" id="timerBadge">⏱️ <b class="mono" id="clock">00:00</b></span>
+        <span class="penalty-badge" id="penaltyBadge" style="display:none">⚠️ Penalties: <b id="penalties">0</b></span>
+        <button class="btn ghost" id="soundToggle" style="padding:.5rem .75rem">🔊</button>
+      </div>
+    </header>
+
+    <!-- MULTIPLAYER (Beta) -->
+    <section class="panel" id="multiplayer" style="display:block">
+      <h2>👥 Multiplayer (Beta)</h2>
+      <p class="hint">Create a room as teacher or join one as a student. Progress appears on a shared scoreboard.</p>
+      <div class="grid" style="grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px;margin:10px 0">
+        <label style="display:grid;gap:6px">
+          <b>Your name</b>
+          <input id="playerName" placeholder="e.g., Alex" />
+        </label>
+        <div class="row" style="gap:8px;align-items:end">
+          <button class="btn" id="createRoom">Create Room</button>
+          <span class="badge" id="roomBadge" style="display:none">Room: <b id="roomCodeDisplay" class="mono"></b></span>
+        </div>
+        <div class="row" style="gap:8px;align-items:end">
+          <input id="joinRoomInput" placeholder="Enter room code" />
+          <button class="btn secondary" id="joinRoomBtn">Join</button>
+        </div>
+      </div>
+      <div style="margin-top:10px">
+        <h3 style="margin-bottom:6px">🏁 Scoreboard</h3>
+        <div id="scoreList" style="display:grid;gap:8px"></div>
+        <p class="tiny" style="margin-top:8px">Note: This demo syncs via your browser. For cross-device play you’ll need a small signaling/realtime service—easy to plug in later.</p>
+        <details style="margin-top:10px">
+          <summary>🔬 Experimental: Peer-to-Peer (WebRTC)</summary>
+          <div class="grid" style="gap:10px;margin-top:10px">
+            <p class="tiny">Without a server, use copy/paste to exchange SDPs. Host creates an offer; students paste it to create answers and send them back to the host.</p>
+            <div class="grid" style="grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:12px">
+              <div class="panel" style="padding:12px">
+                <h3 style="margin:0 0 8px 0">👩‍🏫 Host</h3>
+                <button class="btn" id="hostNewOffer">New Offer</button>
+                <textarea id="hostOffer" class="mono" placeholder="Copy this offer and share" style="width:100%;height:120px;margin-top:8px"></textarea>
+                <textarea id="hostAnswerInput" class="mono" placeholder="Paste student answer here" style="width:100%;height:100px;margin-top:8px"></textarea>
+                <button class="btn secondary" id="hostAcceptAnswer" style="margin-top:8px">Accept Answer</button>
+                <div id="hostRtcStatus" class="tiny" style="margin-top:6px;color:var(--muted)">No peers connected.</div>
+              </div>
+              <div class="panel" style="padding:12px">
+                <h3 style="margin:0 0 8px 0">🧑‍🎓 Student</h3>
+                <textarea id="studentOffer" class="mono" placeholder="Paste host offer here" style="width:100%;height:120px"></textarea>
+                <button class="btn" id="studentMakeAnswer" style="margin-top:8px">Create Answer</button>
+                <textarea id="studentAnswer" class="mono" placeholder="Copy this answer back to host" style="width:100%;height:100px;margin-top:8px"></textarea>
+                <div id="studentRtcStatus" class="tiny" style="margin-top:6px;color:var(--muted)">Waiting for host to accept your answer…</div>
+              </div>
+            </div>
+          </div>
+        </details>
+      </div>
+    </section>
+
+    <section class="grid cols" id="tasks">
+
+      <!-- TASK 1 -->
+      <article class="panel task-card" data-task="t1" data-token="3">
+        <h2>Task 1 — Coolant Flow Order</h2>
+        <p>Arrange the main cooling loop in the correct order (start anywhere, but keep the sequence correct):</p>
+        <div class="grid" style="gap:8px">
+          <label><b>1.</b> <select id="t1a"><option value="">— choose —</option><option>Water Pump</option><option>Radiator</option><option>Engine Block</option><option>Thermostat</option></select></label>
+          <label><b>2.</b> <select id="t1b"><option value="">— choose —</option><option>Thermostat</option><option>Engine Block</option><option>Radiator</option><option>Water Pump</option></select></label>
+          <label><b>3.</b> <select id="t1c"><option value="">— choose —</option><option>Engine Block</option><option>Radiator</option><option>Thermostat</option><option>Water Pump</option></select></label>
+          <label><b>4.</b> <select id="t1d"><option value="">— choose —</option><option>Radiator</option><option>Water Pump</option><option>Thermostat</option><option>Engine Block</option></select></label>
+        </div>
+        <div class="row" style="margin-top:12px">
+          <button class="btn" data-check="t1">Submit</button>
+          <button class="btn ghost" data-hint="t1">💡 Hint</button>
+        </div>
+        <div class="hint" id="t1msg" style="margin-top:8px"></div>
+        <div class="token">🎫 <b>3</b></div>
+      </article>
+
+      <!-- TASK 2 -->
+      <article class="panel task-card" data-task="t2" data-token="7">
+        <h2>Task 2 — Cooling Component Functions</h2>
+        <p>Match each cooling component to its primary function.</p>
+        <div class="grid" style="grid-template-columns:1fr 1.2fr;gap:16px">
+          <div style="padding:12px;background:rgba(255,255,255,.02);border-radius:10px">
+            <div style="margin:8px 0"><b>A.</b> Radiator</div>
+            <div style="margin:8px 0"><b>B.</b> Thermostat</div>
+            <div style="margin:8px 0"><b>C.</b> Water Pump</div>
+            <div style="margin:8px 0"><b>D.</b> Radiator Cap</div>
+          </div>
+          <div class="grid" style="gap:8px">
+            <label><b>1.</b> Circulates coolant through the engine
+              <select id="t2_1"><option value="">—</option><option>A</option><option>B</option><option>C</option><option>D</option></select>
+            </label>
+            <label><b>2.</b> Regulates flow based on temperature
+              <select id="t2_2"><option value="">—</option><option>A</option><option>B</option><option>C</option><option>D</option></select>
+            </label>
+            <label><b>3.</b> Increases system boiling point via pressure
+              <select id="t2_3"><option value="">—</option><option>A</option><option>B</option><option>C</option><option>D</option></select>
+            </label>
+            <label><b>4.</b> Rejects heat to ambient air
+              <select id="t2_4"><option value="">—</option><option>A</option><option>B</option><option>C</option><option>D</option></select>
+            </label>
+          </div>
+        </div>
+        <div class="row" style="margin-top:12px">
+          <button class="btn" data-check="t2">Submit</button>
+          <button class="btn ghost" data-hint="t2">💡 Hint</button>
+        </div>
+        <div class="hint" id="t2msg" style="margin-top:8px"></div>
+        <div class="token">🎫 <b>7</b></div>
+      </article>
+
+      <!-- TASK 3 -->
+      <article class="panel task-card" data-task="t3" data-token="9">
+        <h2>Task 3 — Unscramble Cooling Terms</h2>
+        <p>Unscramble each component:</p>
+        <div class="grid" style="gap:10px">
+          <label><b>DAOIRATR</b> → <input id="t3a" placeholder="component" style="width:100%"/></label>
+          <label><b>HSTTAOTERM</b> → <input id="t3b" placeholder="component" style="width:100%"/></label>
+          <label><b>OOLCANT</b> → <input id="t3c" placeholder="fluid" style="width:100%"/></label>
+          <label><b>RRESEVOIR</b> → <input id="t3d" placeholder="component" style="width:100%"/></label>
+        </div>
+        <div class="row" style="margin-top:12px">
+          <button class="btn" data-check="t3">Submit</button>
+          <button class="btn ghost" data-hint="t3">💡 Hint</button>
+        </div>
+        <div class="hint" id="t3msg" style="margin-top:8px"></div>
+        <div class="token">🎫 <b>9</b></div>
+      </article>
+
+      <!-- TASK 4 -->
+      <article class="panel task-card" data-task="t4" data-token="1">
+        <h2>Task 4 — Recommended Mix</h2>
+        <p>What's the recommended <b>coolant:water</b> mix for most climates?</p>
+        <div class="row">
+          <input id="t4" type="text" placeholder="e.g. 50:50" style="width:160px" />
+          <button class="btn" data-check="t4">Submit</button>
+          <button class="btn ghost" data-hint="t4">💡 Hint</button>
+        </div>
+        <div class="hint" id="t4msg" style="margin-top:8px"></div>
+        <div class="token">🎫 <b>1</b></div>
+      </article>
+
+      <!-- TASK 5 -->
+      <article class="panel task-card" data-task="t5" data-token="8">
+        <h2>Task 5 — Diagnostic Analysis</h2>
+        <p>Engine <b>overheats at idle</b> but cools down at highway speeds. What's the most likely culprit?</p>
+        <div class="grid" style="gap:8px;margin-top:8px">
+          <label style="padding:10px;background:rgba(255,255,255,.02);border-radius:8px;cursor:pointer;transition:.2s" class="radio-label">
+            <input type="radio" name="t5" value="Fan"/> <b>Cooling fan inoperative</b>
+          </label>
+          <label style="padding:10px;background:rgba(255,255,255,.02);border-radius:8px;cursor:pointer;transition:.2s" class="radio-label">
+            <input type="radio" name="t5" value="Thermostat"/> <b>Thermostat stuck closed</b>
+          </label>
+          <label style="padding:10px;background:rgba(255,255,255,.02);border-radius:8px;cursor:pointer;transition:.2s" class="radio-label">
+            <input type="radio" name="t5" value="Radiator"/> <b>Clogged radiator</b>
+          </label>
+          <label style="padding:10px;background:rgba(255,255,255,.02);border-radius:8px;cursor:pointer;transition:.2s" class="radio-label">
+            <input type="radio" name="t5" value="HeadGasket"/> <b>Head gasket failure</b>
+          </label>
+        </div>
+        <div class="row" style="margin-top:12px">
+          <button class="btn" data-check="t5">Submit</button>
+          <button class="btn ghost" data-hint="t5">💡 Hint</button>
+        </div>
+        <div class="hint" id="t5msg" style="margin-top:8px"></div>
+        <div class="token">🎫 <b>8</b></div>
+      </article>
+
+      <!-- TASK 6 -->
+      <article class="panel task-card" data-task="t6" data-token="4">
+        <h2>Task 6 — Pressure Conversion</h2>
+        <p>A common radiator cap is rated <span class="mono badge">1.1 bar</span>. Approximate this pressure in <b>psi</b> (integer).</p>
+        <div class="row">
+          <input id="t6code" class="mono" placeholder="psi" type="number" style="width:160px;font-size:18px;text-align:center"/>
+          <button class="btn" data-check="t6">Submit</button>
+          <button class="btn ghost" data-hint="t6">💡 Hint</button>
+        </div>
+        <div id="t6msg" class="hint" style="margin-top:10px"></div>
+        <div class="token">🎫 <b>4</b></div>
+      </article>
+
+      <!-- TASK 7 -->
+      <article class="panel task-card" data-task="t7" data-token="2">
+        <h2>Task 7 — Flow Initials</h2>
+        <p>Enter the initials of the main path: <b>P</b>ump → <b>E</b>ngine → <b>T</b>hermostat → <b>R</b>adiator.</p>
+        <div class="row">
+          <input id="t7" class="mono" placeholder="4 letters" maxlength="4" style="width:160px;font-size:18px;text-align:center;text-transform:uppercase"/>
+          <button class="btn" data-check="t7">Submit</button>
+          <button class="btn ghost" data-hint="t7">💡 Hint</button>
+        </div>
+        <div class="hint" id="t7msg" style="margin-top:8px"></div>
+        <div class="token">🎫 <b>2</b></div>
+      </article>
+
+      <!-- TASK 8 - THERMOSTAT STATES -->
+      <article class="panel task-card" data-task="t8" data-token="5" style="grid-column:span 2">
+        <h2>Task 8 — Thermostat States</h2>
+        <p>Three snapshots of engine temperature. Enter the code using <b>C</b>=Closed, <b>P</b>=Partial, <b>O</b>=Open for <b>30°C</b>, <b>80°C</b>, <b>95°C</b>.</p>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:20px;margin:16px 0">
+          <div class="car-diagram">
+            <svg viewBox="0 0 160 120" style="width:140px;margin:auto">
+              <rect x="20" y="20" width="120" height="80" rx="10" fill="none" stroke="currentColor" stroke-width="2"/>
+              <circle cx="140" cy="20" r="6" fill="#6ae3ff"/>
+              <text x="80" y="112" text-anchor="middle" fill="currentColor" font-size="14">30°C</text>
+            </svg>
+          </div>
+          <div class="car-diagram">
+            <svg viewBox="0 0 160 120" style="width:140px;margin:auto">
+              <rect x="20" y="20" width="120" height="80" rx="10" fill="none" stroke="currentColor" stroke-width="2"/>
+              <circle cx="80" cy="20" r="6" fill="#ffd166"/>
+              <text x="80" y="112" text-anchor="middle" fill="currentColor" font-size="14">80°C</text>
+            </svg>
+          </div>
+          <div class="car-diagram">
+            <svg viewBox="0 0 160 120" style="width:140px;margin:auto">
+              <rect x="20" y="20" width="120" height="80" rx="10" fill="none" stroke="currentColor" stroke-width="2"/>
+              <circle cx="20" cy="20" r="6" fill="#ff6a7a"/>
+              <text x="80" y="112" text-anchor="middle" fill="currentColor" font-size="14">95°C</text>
+            </svg>
+          </div>
+        </div>
+        <div class="row">
+          <input id="t8" class="mono" placeholder="e.g. CPO" maxlength="3" style="width:160px;font-size:18px;text-align:center;text-transform:uppercase"/>
+          <button class="btn" data-check="t8">Submit</button>
+          <button class="btn ghost" data-hint="t8">💡 Hint</button>
+        </div>
+        <div class="hint" id="t8msg" style="margin-top:8px"></div>
+        <div class="token">🎫 <b>5</b></div>
+      </article>
+
+      <!-- TASK 9 -->
+      <article class="panel task-card" data-task="t9" data-token="6">
+        <h2>Task 9 — Symptom Correlation</h2>
+        <p>Match each symptom to the most likely issue:</p>
+        <div class="grid" style="grid-template-columns:1.5fr 1fr;gap:12px;align-items:center">
+          <div><b>1.</b> No cabin heat, engine at normal temp</div>
+          <select id="t9a"><option>—</option><option>Heater core/Airlock</option><option>Head gasket</option><option>Radiator cap/Overflow</option></select>
+          
+          <div><b>2.</b> White smoke with sweet smell</div>
+          <select id="t9b"><option>—</option><option>Heater core/Airlock</option><option>Head gasket</option><option>Radiator cap/Overflow</option></select>
+          
+          <div><b>3.</b> Coolant loss, no obvious leak</div>
+          <select id="t9c"><option>—</option><option>Heater core/Airlock</option><option>Head gasket</option><option>Radiator cap/Overflow</option></select>
+        </div>
+        <div class="row" style="margin-top:12px">
+          <button class="btn" data-check="t9">Submit</button>
+          <button class="btn ghost" data-hint="t9">💡 Hint</button>
+        </div>
+        <div class="hint" id="t9msg" style="margin-top:8px"></div>
+        <div class="token">🎫 <b>6</b></div>
+      </article>
+
+      <!-- TASK 10 -->
+      <article class="panel task-card" data-task="t10" data-token="0">
+        <h2>Task 10 — Boiling Point (50/50)</h2>
+        <p>Approximate the boiling point in °C of a <b>50/50</b> coolant mix under a pressurized cap. Enter an integer between 118 and 130.</p>
+        <div class="row">
+          <input id="t10" placeholder="e.g. 125" style="width:160px"/>
+          <button class="btn" data-check="t10">Submit</button>
+          <button class="btn ghost" data-hint="t10">💡 Hint</button>
+        </div>
+        <div class="hint" id="t10msg" style="margin-top:8px"></div>
+        <div class="token">🎫 <b>0</b></div>
+      </article>
+
+      <!-- TASK 11 -->
+      <article class="panel task-card" data-task="t11" data-token="8">
+        <h2>Task 11 — Heat Transfer Modes</h2>
+        <p>In a radiator, pick the <b>dominant</b> heat transfer mode for each stage.</p>
+        <div class="grid" style="grid-template-columns:1.4fr 1fr;gap:10px;align-items:center">
+          <div>1. Coolant inside tube → tube wall</div>
+          <select id="t11_1"><option value="">—</option><option>Conduction</option><option>Convection</option><option>Radiation</option></select>
+          <div>2. Through the tube/fin metal thickness</div>
+          <select id="t11_2"><option value="">—</option><option>Conduction</option><option>Convection</option><option>Radiation</option></select>
+          <div>3. Fin surface → ambient air</div>
+          <select id="t11_3"><option value="">—</option><option>Conduction</option><option>Convection</option><option>Radiation</option></select>
+        </div>
+        <div class="row" style="margin-top:12px">
+          <button class="btn" data-check="t11">Submit</button>
+          <button class="btn ghost" data-hint="t11">💡 Hint</button>
+        </div>
+        <div class="hint" id="t11msg" style="margin-top:8px"></div>
+        <div class="token">🎫 <b>8</b></div>
+      </article>
+
+      <!-- TASK 12 -->
+      <article class="panel task-card" data-task="t12" data-token="3">
+        <h2>Task 12 — Thermostat Opening Range</h2>
+        <p>Enter a sensible <b>opening range</b> in °C (e.g., 80–90).</p>
+        <div class="row">
+          <input id="t12low" type="number" placeholder="low °C" style="width:140px"/>
+          <span>–</span>
+          <input id="t12high" type="number" placeholder="high °C" style="width:140px"/>
+          <button class="btn" data-check="t12">Submit</button>
+          <button class="btn ghost" data-hint="t12">💡 Hint</button>
+        </div>
+        <div class="hint" id="t12msg" style="margin-top:8px"></div>
+        <div class="token">🎫 <b>3</b></div>
+      </article>
+
+      <!-- TASK 13 -->
+      <article class="panel task-card" data-task="t13" data-token="5">
+        <h2>Task 13 — The Cooling Riddle</h2>
+        <div style="padding:16px;background:rgba(106,227,255,.05);border-left:4px solid var(--accent);border-radius:8px;margin:12px 0">
+          <p style="font-style:italic;margin:0;line-height:1.7">
+            "I start at rest and keep things cool,<br/>
+            I open just above a pool.<br/>
+            I shed my heat with windy aid,<br/>
+            Then keep some spare in tank that's laid."
+          </p>
+        </div>
+        <p class="tiny">Enter the four words separated by dashes (e.g. pump-thermostat-radiator-reservoir)</p>
+        <div class="row">
+          <input id="t13" placeholder="word-word-word-word" style="flex:1;min-width:200px"/>
+          <button class="btn" data-check="t13">Submit</button>
+          <button class="btn ghost" data-hint="t13">💡 Hint</button>
+        </div>
+        <div class="hint" id="t13msg" style="margin-top:8px"></div>
+        <div class="token">🎫 <b>5</b></div>
+      </article>
+
+      <!-- TASK 14 -->
+      <article class="panel task-card" data-task="t14" data-token="7">
+        <h2>Task 14 — Radiator Flow Direction</h2>
+        <p>Watch the animation and select the flow direction shown.</p>
+        <div style="margin-top:8px;border-radius:10px;overflow:hidden;border:1px solid rgba(255,255,255,.06);display:grid;place-items:center;padding:12px">
+          <svg viewBox="0 0 400 140" style="width:100%;max-width:520px">
+            <defs>
+              <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                <path d="M 0 0 L 10 5 L 0 10 z" fill="var(--accent)"/>
+              </marker>
+              <linearGradient id="grad" x1="0" x2="0" y1="0" y2="1">
+                <stop offset="0%" stop-color="var(--accent)"/>
+                <stop offset="100%" stop-color="var(--warn)"/>
+              </linearGradient>
+              <style>
+                @keyframes flowDown { from { stroke-dashoffset: 120; } to { stroke-dashoffset: 0; } }
+              </style>
+            </defs>
+            <rect x="40" y="20" width="90" height="100" rx="8" fill="none" stroke="url(#grad)" stroke-width="4"/>
+            <rect x="270" y="20" width="90" height="100" rx="8" fill="none" stroke="url(#grad)" stroke-width="4"/>
+            <text x="85" y="18" text-anchor="middle" fill="currentColor" font-size="14">Radiator</text>
+            <text x="315" y="18" text-anchor="middle" fill="currentColor" font-size="14">Engine</text>
+            <path d="M 85 30 L 85 110" stroke="var(--accent)" stroke-width="6" stroke-dasharray="12 8" style="animation:flowDown 1.5s linear infinite" marker-end="url(#arrow)"/>
+            <path d="M 315 110 L 315 30" stroke="var(--accent)" stroke-width="6" stroke-dasharray="12 8" style="animation:flowDown 1.5s linear infinite; animation-direction: reverse" marker-end="url(#arrow)"/>
+          </svg>
+        </div>
+        <div style="margin-top:12px;display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:8px">
+          <label style="padding:10px;background:rgba(255,255,255,.02);border-radius:8px"><input type="radio" name="t14" value="Top-to-bottom"/> Top-to-bottom crossflow</label>
+          <label style="padding:10px;background:rgba(255,255,255,.02);border-radius:8px"><input type="radio" name="t14" value="Bottom-to-top"/> Bottom-to-top</label>
+          <label style="padding:10px;background:rgba(255,255,255,.02);border-radius:8px"><input type="radio" name="t14" value="Left-to-right"/> Left-to-right</label>
+          <label style="padding:10px;background:rgba(255,255,255,.02);border-radius:8px"><input type="radio" name="t14" value="Right-to-left"/> Right-to-left</label>
+        </div>
+        <div class="row" style="margin-top:12px">
+          <button class="btn" data-check="t14">Submit</button>
+          <button class="btn ghost" data-hint="t14">💡 Hint</button>
+        </div>
+        <div class="hint" id="t14msg" style="margin-top:8px"></div>
+        <div class="token">🎫 <b>7</b></div>
+      </article>
+
+      <!-- TASK 15 - LABEL THE DIAGRAM -->
+      <article class="panel task-card" data-task="t15" data-token="4" style="grid-column:span 2">
+        <h2>Task 15 — Decode the Cooling System</h2>
+        <p>Label all 15 numbered parts in the cooling system diagram. Then take the <b>first letter</b> of each along the path to reveal the message.</p>
+        
+        <div class="t15-container">
+          <div class="t15-column">
+            <div style="font-weight:700;margin-bottom:12px;color:var(--accent)">Left Column</div>
+            <label>2: <input id="t15_2"/></label>
+            <label>3: <input id="t15_3"/></label>
+            <label>4: <input id="t15_4"/></label>
+            <label>5: <input id="t15_5"/></label>
+            <label>6: <input id="t15_6"/></label>
+            <label>7: <input id="t15_7"/></label>
+            <label>8: <input id="t15_8"/></label>
+            <label>9: <input id="t15_9"/></label>
+          </div>
+          
+          <div class="t15-center">
+            <div style="margin-bottom:12px;text-align:center">
+              <div style="font-weight:700;margin-bottom:6px;color:var(--accent)">Top Center</div>
+              <label style="display:flex;flex-direction:column;gap:4px;align-items:center">
+                1: <input id="t15_1" style="width:180px;font-size:14px"/>
+              </label>
+            </div>
+            <div class="t15-diagram">
+              <svg viewBox="0 0 800 420" style="width:100%;height:auto">
+                <defs>
+                  <style>
+                    .call{fill:#0b1030;stroke:#6ae3ff;stroke-width:2}
+                    .num{fill:#6ae3ff;font:bold 14px/1 monospace;}
+                    .pipe{stroke:#6ae3ff;stroke-width:6;fill:none}
+                    .hot{stroke:#ff6a7a}
+                    .cool{stroke:#6ae3ff}
+                    .label{fill:currentColor;font-size:14px}
+                  </style>
+                </defs>
+                <!-- Radiator -->
+                <rect x="40" y="60" width="130" height="260" rx="10" fill="none" stroke="#6ae3ff" stroke-width="3"/>
+                <text x="105" y="50" class="label" text-anchor="middle">Radiator (1)</text>
+                <circle cx="60" cy="80" r="14" class="call"></circle><text x="60" y="85" class="num" text-anchor="middle">1</text>
+                <!-- Cap / Tank -->
+                <rect x="60" y="20" width="60" height="30" rx="6" fill="none" stroke="#6ae3ff"/>
+                <circle cx="90" cy="35" r="12" class="call"></circle><text x="90" y="40" class="num" text-anchor="middle">2</text>
+                <!-- Upper hose -->
+                <path d="M 170 80 C 260 80 300 80 360 80" class="pipe hot"/>
+                <circle cx="230" cy="70" r="12" class="call"></circle><text x="230" y="75" class="num" text-anchor="middle">3</text>
+                <!-- Thermostat housing -->
+                <rect x="360" y="60" width="60" height="40" rx="6" fill="none" stroke="#6ae3ff"/>
+                <circle cx="390" cy="50" r="12" class="call"></circle><text x="390" y="55" class="num" text-anchor="middle">4</text>
+                <!-- Thermostat -->
+                <circle cx="390" cy="80" r="14" class="call"></circle><text x="390" y="85" class="num" text-anchor="middle">5</text>
+                <!-- Head jacket -->
+                <rect x="460" y="60" width="200" height="80" rx="8" fill="none" stroke="#6ae3ff"/>
+                <circle cx="480" cy="70" r="12" class="call"></circle><text x="480" y="75" class="num" text-anchor="middle">6</text>
+                <!-- Block jacket -->
+                <rect x="460" y="160" width="200" height="120" rx="8" fill="none" stroke="#6ae3ff"/>
+                <circle cx="480" cy="170" r="12" class="call"></circle><text x="480" y="175" class="num" text-anchor="middle">7</text>
+                <!-- Water pump -->
+                <circle cx="400" cy="260" r="26" fill="none" stroke="#6ae3ff" stroke-width="3"/>
+                <circle cx="400" cy="260" r="14" class="call"></circle><text x="400" y="265" class="num" text-anchor="middle">8</text>
+                <!-- Lower hose -->
+                <path d="M 374 260 C 310 300 260 320 170 320" class="pipe cool"/>
+                <circle cx="230" cy="310" r="12" class="call"></circle><text x="230" y="315" class="num" text-anchor="middle">9</text>
+                <!-- Heater core -->
+                <rect x="600" y="20" width="120" height="60" rx="8" fill="none" stroke="#6ae3ff"/>
+                <circle cx="610" cy="30" r="12" class="call"></circle><text x="610" y="35" class="num" text-anchor="middle">10</text>
+                <!-- Heater hoses -->
+                <path d="M 520 120 C 560 100 600 80 600 50" class="pipe hot"/>
+                <path d="M 600 80 C 560 140 520 160 520 200" class="pipe cool"/>
+                <circle cx="560" cy="110" r="12" class="call"></circle><text x="560" y="115" class="num" text-anchor="middle">11</text>
+                <!-- Fan -->
+                <circle cx="40" cy="190" r="24" fill="none" stroke="#6ae3ff" stroke-width="3"/>
+                <line x1="40" y1="166" x2="40" y2="214" stroke="#6ae3ff" stroke-width="3"/>
+                <line x1="16" y1="190" x2="64" y2="190" stroke="#6ae3ff" stroke-width="3"/>
+                <circle cx="40" cy="190" r="12" class="call"></circle><text x="40" y="195" class="num" text-anchor="middle">12</text>
+                <!-- Fan shroud -->
+                <rect x="28" y="150" width="24" height="80" rx="6" fill="none" stroke="#6ae3ff"/>
+                <circle cx="28" cy="240" r="12" class="call"></circle><text x="28" y="245" class="num" text-anchor="middle">13</text>
+                <!-- Expansion tank -->
+                <rect x="250" y="10" width="100" height="40" rx="8" fill="none" stroke="#6ae3ff"/>
+                <circle cx="250" cy="10" r="12" class="call"></circle><text x="250" y="15" class="num" text-anchor="middle">14</text>
+                <!-- Temp sensor -->
+                <circle cx="650" cy="110" r="10" fill="none" stroke="#6ae3ff" stroke-width="3"/>
+                <circle cx="650" cy="110" r="12" class="call"></circle><text x="650" y="115" class="num" text-anchor="middle">15</text>
+              </svg>
+            </div>
+            <div class="tiny" style="margin-top:12px;text-align:center;padding:8px;background:rgba(255,255,255,.02);border-radius:8px">
+              Match each number to its cooling component name
+            </div>
+          </div>
+
+          <div class="t15-column">
+            <div style="font-weight:700;margin-bottom:12px;color:var(--accent)">Right Column</div>
+            <label>10: <input id="t15_10"/></label>
+            <label>11: <input id="t15_11"/></label>
+            <label>12: <input id="t15_12"/></label>
+            <label>13: <input id="t15_13"/></label>
+            <label>14: <input id="t15_14"/></label>
+            <label>15: <input id="t15_15"/></label>
+          </div>
+        </div>
+
+        <div style="margin-top:20px;padding:16px;background:rgba(106,227,255,.05);border-left:4px solid var(--accent);border-radius:8px">
+          <p style="font-weight:600;margin:0 0 8px 0">🔐 Secret Sequence Decoder:</p>
+          <p class="tiny" style="margin:0">Once all components are labeled, enter the decoded message from the first letters following this path: <b>7→1→13→4→9→2→15→8→3→11→5→14→6→10→12</b></p>
+        </div>
+
+        <div class="row" style="margin-top:16px;align-items:center;gap:12px">
+          <input id="t15code" class="mono" placeholder="15-letter code" maxlength="15" style="flex:1;font-size:18px;text-align:center;text-transform:uppercase;letter-spacing:2px"/>
+          <button class="btn" data-check="t15">Decode Message</button>
+          <button class="btn ghost" data-hint="t15">💡 Hint</button>
+        </div>
+        <div class="hint" id="t15msg" style="margin-top:8px"></div>
+        <div class="token">🎫 <b>4</b></div>
+      </article>
+
+    </section>
+
+    <!-- FINAL LOCK WITH RIDDLE -->
+    <section class="panel" style="background:linear-gradient(180deg,rgba(106,227,255,.08),rgba(0,0,0,.08))">
+      <h2>🔐 Final Lock — Decode the OTP</h2>
+      <p>You've collected 6 OTP digits. But first, solve this cooling riddle to unlock the input:</p>
+      <div style="padding:20px;background:rgba(255,255,255,.03);border-radius:12px;margin:16px 0;border:2px dashed rgba(106,227,255,.3)">
+        <p style="font-weight:600;color:var(--accent);margin:0 0 12px 0">🧩 RIDDLE:</p>
+        <p style="font-style:italic;line-height:1.7;margin:0">
+          "Start at the temp where many thermostats begin to open (°C),<br/>
+          Add the number of letters in the word COOL,<br/>
+          Then subtract the larger number shown in a 50:50 mix.<br/>
+          What number remains?"
+        </p>
+      </div>
+      <div class="row" style="margin-top:16px">
+        <input id="riddleAnswer" type="number" placeholder="Riddle answer" style="width:200px"/>
+        <button id="unlockRiddle" class="btn">Solve Riddle</button>
+      </div>
+      <div id="riddleMsg" class="hint" style="margin-top:8px"></div>
+      
+      <div id="otpSection" style="display:none;margin-top:24px;padding-top:24px;border-top:2px solid rgba(255,255,255,.1)">
+        <p><b>Riddle solved!</b> Now arrange your OTP digits in <b>ascending order</b> and enter the 6-digit code:</p>
+        <div class="row" style="margin-top:16px">
+          <input id="final" class="mono" placeholder="______" maxlength="6" style="width:220px;font-size:24px;text-align:center;letter-spacing:8px"/>
+          <button id="unlock" class="btn" style="font-size:18px;padding:1rem 2rem">🔓 Unlock Engine</button>
+        </div>
+        <div id="finalmsg" class="hint" style="margin-top:12px;font-size:16px"></div>
+      </div>
+    </section>
+
+    <!-- TEACHER CONTROLS WITH PASSWORD -->
+    <details class="panel" id="teacherPanel">
+      <summary><b>👨‍🏫 Teacher Controls</b></summary>
+      <div id="teacherContent" style="display:none">
+        <div class="grid" style="gap:16px;margin-top:16px">
+          <div class="grid" style="grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:12px">
+            <label style="display:grid;gap:4px">
+              <b>Winning OTP (ascending order):</b>
+              <input id="setOtp" class="mono" value="012345" maxlength="6" style="font-size:18px"/>
+            </label>
+            <label style="display:grid;gap:4px">
+              <b>Riddle Answer:</b>
+              <input id="setRiddle" type="number" value="42" style="font-size:18px"/>
+            </label>
+            <label style="display:grid;gap:4px">
+              <b>Task 15 expected code (15 letters):</b>
+              <input id="setT15" type="text" value="ERFTLRTWUHTECHC" maxlength="15" style="font-size:18px;text-transform:uppercase"/>
+            </label>
+          </div>
+          <button class="btn secondary" id="reset" style="width:fit-content">🔄 Reset Game</button>
+        </div>
+        <p class="tiny" style="margin-top:12px;padding:12px;background:rgba(255,255,255,.02);border-radius:8px">
+          <b>Note:</b> OTP digits collected from tokens: 3,7,9,1,8,4,2,5,6,0,8,3,5,7,4. First 6 unique in ascending order: <b>012345</b><br/>
+          <b>Riddle:</b> Example solution: 88 (thermostat) + 4 (letters in COOL) − 50 (mix value) = <b>42</b>. You can adjust the answer as needed in the control above.<br/>
+          <b>Task 15:</b> Sequence 7→1→13→4→9→2→15→8→3→11→5→14→6→10→12 should spell the 15-letter code from first letters of correct cooling component names
+        </p>
+      </div>
+    </details>
+
+  </div>
+
+  <!-- REFERENCE GUIDE DIALOG -->
+  <dialog id="guide">
+    <div class="grid" style="gap:20px">
+      <div style="text-align:center">
+        <h2 style="font-size:28px;margin-bottom:12px">📖 Cooling System Reference</h2>
+        <div style="width:60px;height:4px;background:linear-gradient(90deg,var(--accent),var(--good));margin:0 auto;border-radius:999px"></div>
+      </div>
+      <div style="padding:20px;background:rgba(255,138,76,.05);border:2px solid rgba(255,138,76,.2);border-radius:12px">
+        <h3 style="margin-bottom:12px">Cooling Basics:</h3>
+        <ul style="margin:0;padding-left:20px;line-height:1.9">
+          <li><b>Pump</b> moves coolant through the engine jackets.</li>
+          <li><b>Thermostat</b> regulates flow to radiator based on temperature.</li>
+          <li><b>Radiator</b> rejects heat to air; <b>fan</b> assists at low speed.</li>
+          <li><b>Cap</b> raises system pressure to increase boiling point.</li>
+          <li><b>Reservoir</b> handles expansion and contraction.</li>
+          <li>Common mix: <b>50:50</b> coolant:water.</li>
+          <li><b>Heat transfer modes</b>: coolant→metal is <i>convection</i>, through metal is <i>conduction</i>, metal→air is <i>convection</i>.</li>
+        </ul>
+      </div>
+      <div style="padding:16px;background:rgba(255,255,255,.02);border-radius:10px">
+        <h3 style="margin-bottom:8px">🔑 Study Tips</h3>
+        <ul style="margin:8px 0;padding-left:20px;line-height:1.8">
+          <li>Follow the flow: Pump → Engine → Thermostat → Radiator → Pump</li>
+          <li>Thermostat partially opens near 88°C</li>
+          <li>Pressure raises boiling point; airflow lowers temperature</li>
+          <li>Bleed air after service to restore heater performance</li>
+        </ul>
+      </div>
+      <button class="btn" id="closeGuide" style="width:100%;padding:1rem">Return to Challenge</button>
+    </div>
+  </dialog>
+
+  <!-- PASSWORD DIALOG -->
+  <dialog id="passwordDialog">
+    <div class="grid" style="gap:20px;min-width:300px">
+      <h3>🔒 Teacher Access</h3>
+      <p>Enter teacher password:</p>
+      <input type="password" id="teacherPassword" placeholder="Password" style="width:100%"/>
+      <div class="row" style="gap:8px">
+        <button class="btn" id="submitPassword" style="flex:1">Submit</button>
+        <button class="btn ghost" id="cancelPassword" style="flex:1">Cancel</button>
+      </div>
+      <div id="passwordError" class="hint" style="color:var(--bad)"></div>
+    </div>
+  </dialog>
+
+  <script>
+    // ===== CONFIG =====
+  const TEACHER_PASSWORD = "otto1876";
+    const PENALTY_SECONDS = 10;
+    
+    // ===== UTILITIES =====
+  const $ = sel => document.querySelector(sel);
+  const $$ = sel => Array.from(document.querySelectorAll(sel));
+
+  // ===== Multiplayer basic state =====
+  let playerName = localStorage.getItem('coolingName') || '';
+  let roomCode = localStorage.getItem('coolingRoom') || '';
+  let isTeacher = false;
+  const scoreByName = new Map(); // name -> { solved, time, updatedAt }
+  let bc;
+
+    // State
+    let soundEnabled = true;
+    let wrongAnswers = 0;
+    let lockoutAttempts = 0;
+    let timeOffset = 0;
+    const solved = new Set();
+    const otpDigits = new Map();
+
+    // Sound effects
+    const playSound = (freq, duration) => {
+      if (!soundEnabled) return;
+      try {
+        const ctx = new (window.AudioContext || window.webkitAudioContext)();
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+        osc.frequency.value = freq;
+        osc.type = 'sine';
+        gain.gain.setValueAtTime(0.1, ctx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + duration);
+        osc.start(ctx.currentTime);
+        osc.stop(ctx.currentTime + duration);
+      } catch(e) {}
+    };
+
+    $('#soundToggle').addEventListener('click', () => {
+      soundEnabled = !soundEnabled;
+      $('#soundToggle').textContent = soundEnabled ? '🔊' : '🔇';
+    });
+
+    // Confetti
+    const makeConfetti = () => {
+      const colors = ['#ff6a7a', '#6ae3ff', '#3de387', '#ffd166', '#ff3b3b', '#30ff6d'];
+      for (let i = 0; i < 50; i++) {
+        setTimeout(() => {
+          const confetti = document.createElement('div');
+          confetti.className = 'confetti';
+          confetti.style.left = Math.random() * 100 + '%';
+          confetti.style.background = colors[Math.floor(Math.random() * colors.length)];
+          confetti.style.animationDelay = Math.random() * 0.5 + 's';
+          document.body.appendChild(confetti);
+          setTimeout(() => confetti.remove(), 3000);
+        }, i * 30);
+      }
+    };
+
+    // Timer with penalties
+    let start = Date.now();
+    setInterval(() => {
+      const elapsed = Math.floor((Date.now() - start) / 1000) + timeOffset;
+      const m = String(Math.floor(elapsed / 60)).padStart(2, '0');
+      const ss = String(elapsed % 60).padStart(2, '0');
+      $('#clock').textContent = `${m}:${ss}`;
+      if (timeOffset > 0) {
+        $('#timerBadge').style.borderColor = 'var(--warn)';
+      }
+    }, 1000);
+
+    // Add penalty
+    const addPenalty = () => {
+      wrongAnswers++;
+      timeOffset += PENALTY_SECONDS;
+      $('#penalties').textContent = wrongAnswers;
+      $('#penaltyBadge').style.display = 'inline-flex';
+      playSound(150, 0.3);
+    };
+
+    // Show lockout
+    const showLockout = (attempts) => {
+      const seconds = attempts * 15;
+      const overlay = document.createElement('div');
+      overlay.className = 'lockout-overlay';
+      overlay.innerHTML = `
+        <div class="lockout-box">
+          <h2 style="color:var(--bad);margin-bottom:20px">🔒 ACCESS DENIED</h2>
+          <p>Due to entering <b>${attempts}</b> incorrect answer(s),<br/>you must wait before trying again.</p>
+          <div class="lockout-timer" id="lockoutTimer">${seconds}</div>
+          <p class="tiny">Please review your collected digits and try again...</p>
+        </div>
+      `;
+      document.body.appendChild(overlay);
+      
+      let remaining = seconds;
+      const timer = setInterval(() => {
+        remaining--;
+        $('#lockoutTimer').textContent = remaining;
+        if (remaining <= 0) {
+          clearInterval(timer);
+          overlay.remove();
+        }
+      }, 1000);
+    };
+
+    // Progress
+    const updateProgress = () => {
+      const total = 15;
+      const count = solved.size;
+      $('#solved').textContent = `${count}/${total}`;
+      $('#bar').style.width = `${(count / total) * 100}%`;
+
+      const order = ['t1','t2','t3','t4','t5','t6','t7','t8','t9','t10','t11','t12','t13','t14','t15'];
+      const digits = [];
+      const seen = new Set();
+      for (const id of order) {
+        if (otpDigits.has(id)) {
+          const d = otpDigits.get(id);
+          if (!seen.has(d) && digits.length < 6) {
+            digits.push(d);
+            seen.add(d);
+          }
+        }
+      }
+      while (digits.length < 6) digits.push('_');
+      // Map digits per player for unique codes
+      const mapped = digits.map(d => d === '_' ? '_' : String(mapDigit(d)));
+      $('#otp').textContent = mapped.join('');
+
+      // Broadcast progress to room
+      broadcastProgress();
+    };
+
+    const award = (taskId, msgEl) => {
+      const card = document.querySelector(`[data-task="${taskId}"]`);
+      if (!card) return;
+      
+      solved.add(taskId);
+      const digit = card.dataset.token;
+      otpDigits.set(taskId, digit);
+      
+      card.classList.add('solved');
+      if (msgEl) {
+        msgEl.innerHTML = `<span class="ok">✓ Correct! OTP digit: <b>${digit}</b></span>`;
+      }
+      
+      playSound(523.25, 0.1);
+      setTimeout(() => playSound(659.25, 0.15), 100);
+      
+      updateProgress();
+    };
+
+    const wrong = (msgEl, text = '❌ Incorrect. Try again!', el = null) => {
+      addPenalty();
+      if (msgEl) {
+        msgEl.innerHTML = `<span class="no">${text}</span>`;
+      }
+      if (el) {
+        el.classList.add('error');
+        setTimeout(() => el.classList.remove('error'), 300);
+      }
+    };
+
+    // Levenshtein distance for fuzzy matching
+    const levenshtein = (a, b) => {
+      if (a === b) return 0;
+      const al = a.length, bl = b.length;
+      if (al === 0) return bl;
+      if (bl === 0) return al;
+      const matrix = Array.from({length: al + 1}, () => Array(bl + 1).fill(0));
+      for (let i = 0; i <= al; i++) matrix[i][0] = i;
+      for (let j = 0; j <= bl; j++) matrix[0][j] = j;
+      for (let i = 1; i <= al; i++) {
+        for (let j = 1; j <= bl; j++) {
+          const cost = a[i-1] === b[j-1] ? 0 : 1;
+          matrix[i][j] = Math.min(
+            matrix[i-1][j] + 1,
+            matrix[i][j-1] + 1,
+            matrix[i-1][j-1] + cost
+          );
+        }
+      }
+      return matrix[al][bl];
+    };
+
+    // Canonical labels for Task 15 (cooling system)
+    const canonicalT15 = [
+      'radiator',          // 1
+      'radiator cap',      // 2
+      'upper hose',        // 3
+      'thermostat housing',// 4
+      'thermostat',        // 5
+      'cylinder head',     // 6
+      'engine block',      // 7
+      'water pump',        // 8
+      'lower hose',        // 9
+      'heater core',       // 10
+      'heater hoses',      // 11
+      'cooling fan',       // 12
+      'fan shroud',        // 13
+      'expansion tank',    // 14
+      'temperature sensor' // 15
+    ];
+
+    const checkers = {
+      t1() {
+        const a = $('#t1a').value, b = $('#t1b').value, c = $('#t1c').value, d = $('#t1d').value;
+        const seq = [a,b,c,d].join('>');
+        const ok = seq === 'Water Pump>Engine Block>Thermostat>Radiator';
+        ok ? award('t1', $('#t1msg')) : wrong($('#t1msg'), '❌ Follow: Pump → Engine → Thermostat → Radiator');
+      },
+      t2() {
+        const ok = $('#t2_1').value === 'C' && $('#t2_2').value === 'B' && $('#t2_3').value === 'D' && $('#t2_4').value === 'A';
+        ok ? award('t2', $('#t2msg')) : wrong($('#t2msg'), '❌ Consider each component\'s primary role');
+      },
+      t3() {
+        const w = el => el.value.trim().toLowerCase();
+        const ok = w($('#t3a')) === 'radiator' && w($('#t3b')) === 'thermostat' && w($('#t3c')) === 'coolant' && w($('#t3d')) === 'reservoir';
+        ok ? award('t3', $('#t3msg')) : wrong($('#t3msg'), '❌ Check your spelling', $('#t3a'));
+      },
+      t4() {
+        const v = $('#t4').value.trim().replace(/\s+/g,'').toLowerCase();
+        const ok = v === '50:50' || v === '50/50' || v === '5050' || v === '1:1';
+        ok ? award('t4', $('#t4msg')) : wrong($('#t4msg'), '❌ Think equal parts coolant and water', $('#t4'));
+      },
+      t5() {
+        const sel = document.querySelector('input[name="t5"]:checked');
+        const ok = sel && sel.value === 'Fan';
+        ok ? award('t5', $('#t5msg')) : wrong($('#t5msg'), '❌ Consider airflow at idle');
+      },
+      t6() {
+        const v = $('#t6code').value.trim();
+        const ok = v === '16';
+        ok ? award('t6', $('#t6msg')) : wrong($('#t6msg'), '❌ ~14.5 psi per bar; try rounding', $('#t6code'));
+      },
+      t7() {
+        const ok = $('#t7').value.trim().toUpperCase() === 'PETR';
+        ok ? award('t7', $('#t7msg')) : wrong($('#t7msg'), '❌ Take first letter of each word', $('#t7'));
+      },
+      t8() {
+        const val = $('#t8').value.trim().toUpperCase();
+        if (!val) return wrong($('#t8msg'), '❌ Enter three letters (C/P/O) for the thermostat state', $('#t8'));
+        if (val.length !== 3) return wrong($('#t8msg'), '❌ Enter exactly three letters', $('#t8'));
+        if (!/^[CPO]{3}$/.test(val)) return wrong($('#t8msg'), '❌ Use only C, P, or O for each position', $('#t8'));
+        const expected = 'CPO';
+        val === expected ? award('t8', $('#t8msg')) : wrong($('#t8msg'), '❌ Think: cold, warm-up, operating temp', $('#t8'));
+      },
+      t9() {
+        const a = $('#t9a').value, b = $('#t9b').value, c = $('#t9c').value;
+        const ok = a === 'Heater core/Airlock' && b === 'Head gasket' && c === 'Radiator cap/Overflow';
+        ok ? award('t9', $('#t9msg')) : wrong($('#t9msg'), '❌ Match symptom to system area');
+      },
+      t10() {
+        const v = parseInt($('#t10').value.trim(), 10);
+        const ok = Number.isFinite(v) && v >= 118 && v <= 130;
+        ok ? award('t10', $('#t10msg')) : wrong($('#t10msg'), '❌ 50/50 mix boils well above 100°C under pressure', $('#t10'));
+      },
+      t11() {
+        const a = $('#t11_1').value;
+        const b = $('#t11_2').value;
+        const c = $('#t11_3').value;
+        const ok = a === 'Convection' && b === 'Conduction' && c === 'Convection';
+        ok ? award('t11', $('#t11msg')) : wrong($('#t11msg'), '❌ Think: fluid motion vs through-solid vs air flow');
+      },
+      t12() {
+        const low = parseFloat($('#t12low').value);
+        const high = parseFloat($('#t12high').value);
+        if (!Number.isFinite(low) || !Number.isFinite(high)) {
+          return wrong($('#t12msg'), '❌ Enter both low and high temperatures', $('#t12low'));
+        }
+        if (low >= high) {
+          return wrong($('#t12msg'), '❌ Low must be less than high', $('#t12low'));
+        }
+        // Accept typical ranges like 80–90, 82–92, 85–95 etc.
+        const okLow = low >= 80 && low <= 85;
+        const okHigh = high >= 88 && high <= 92;
+        const ok = okLow && okHigh;
+        ok ? award('t12', $('#t12msg')) : wrong($('#t12msg'), '❌ Most stats begin opening ~82–88°C and are open by ~90°C', $('#t12low'));
+      },
+      t13() {
+        const v = $('#t13').value.trim().toLowerCase().replace(/\s+/g, '');
+        const ok = v === 'pump-thermostat-radiator-reservoir' || v === 'pump-stat-radiator-reservoir';
+        ok ? award('t13', $('#t13msg')) : wrong($('#t13msg'), '❌ Follow the riddle\'s sequence', $('#t13'));
+      },
+      t14() {
+        const sel = document.querySelector('input[name="t14"]:checked');
+        const ok = sel && sel.value === 'Top-to-bottom';
+        ok ? award('t14', $('#t14msg')) : wrong($('#t14msg'), '❌ Watch the arrows fall from top to bottom', null);
+      },
+      t15() {
+        const sequence = [7,1,13,4,9,2,15,8,3,11,5,14,6,10,12];
+        const ids = Array.from({length: 15}, (_, i) => `t15_${i+1}`);
+        const vals = ids.map(id => ($('#' + id).value || '').trim());
+        const enteredCode = ($('#t15code').value || '').trim().toUpperCase();
+        const teacherCode = $('#setT15').value.trim().toUpperCase();
+        
+        if (!enteredCode) {
+          return wrong($('#t15msg'), '❌ Enter the decoded message from the first letters', $('#t15code'));
+        }
+        
+        if (enteredCode.length !== 15) {
+          return wrong($('#t15msg'), '❌ The code must be exactly 15 letters', $('#t15code'));
+        }
+        
+        if (vals.some(v => !v)) {
+          return wrong($('#t15msg'), '❌ Please label all 15 components first', $('#' + ids.find(id => !$('#' + id).value)));
+        }
+
+        const letters = sequence.map(i => vals[i-1][0].toUpperCase()).join('');
+        
+        if (enteredCode !== letters) {
+          return wrong($('#t15msg'), `❌ Your code doesn't match the sequence. Following 7→1→13→... gives: <b>${letters}</b>`, $('#t15code'));
+        }
+        
+        const lowerVals = vals.map(v => v.toLowerCase());
+        let allClose = true;
+        for (let i = 0; i < canonicalT15.length; i++) {
+          const a = lowerVals[i] || '';
+          const b = canonicalT15[i] || '';
+          const dist = levenshtein(a, b);
+          const threshold = Math.ceil(Math.max(a.length, b.length) * 0.25);
+          if (dist > threshold) { allClose = false; break; }
+        }
+
+        if (allClose && enteredCode === teacherCode) {
+          $('#t15msg').innerHTML = `<span class="ok">✓ Perfect! Components labeled correctly and message decoded: <b>${letters}</b></span>`;
+          ids.forEach(id => { 
+            const el = $('#' + id); 
+            el.classList.add('input-ok'); 
+            el.disabled = true; 
+          });
+          $('#t15code').classList.add('input-ok');
+          $('#t15code').disabled = true;
+          return award('t15', null);
+        } else if (!allClose) {
+          return wrong($('#t15msg'), `❌ Some component labels need correction. Your sequence spells: <b>${letters}</b>`, $('#t15code'));
+        } else {
+          return wrong($('#t15msg'), `❌ Message decoded as <b>${letters}</b> but doesn't match the engine's secret`, $('#t15code'));
+        }
+      }
+    };
+    
+    // Wire buttons
+    $$('[data-check]').forEach(btn => btn.addEventListener('click', () => {
+      const id = btn.getAttribute('data-check');
+      checkers[id] && checkers[id]();
+    }));
+
+    // Hints
+    const hints = {
+      t1: [
+        '💡 The heart pushes; the fins breathe.',
+        '💡 March from mover to cooler.',
+        '💡 Think pump → heat → gate → fins.'
+      ],
+      t2: [
+        '💡 Mover • Decider • Pressurizer • Cooler.',
+        '💡 Who spins? Who chooses? Who seals? Who sheds?'
+      ],
+      t3: [
+        '💡 Exchanger • Gatekeeper • Lifeblood • Bottle.',
+        '💡 The grid, the valve, the fluid, the spare.'
+      ],
+      t4: [
+        '💡 Twins in balance.',
+        '💡 Half and half.'
+      ],
+      t5: [
+        '💡 When wind is absent, heat lingers.',
+        '💡 Still air, rising temp.'
+      ],
+      t6: [
+        '💡 About fifteen for one; a whisper more for 1.1.',
+        '💡 ~14.5 psi per bar.'
+      ],
+      t7: [
+        '💡 Take the first steps of the journey.',
+        '💡 Initials of the path.'
+      ],
+      t8: [
+        '💡 Cold shuts, warm stirs, hot yields.',
+        '💡 C then P then O.'
+      ],
+      t9: [
+        '💡 No cabin warmth: trapped breath. Sweet clouds: a breach.',
+        '💡 Heater = air; sweet smoke = leak.'
+      ],
+      t10: [
+        '💡 Under pressure, water forgets 100.',
+        '💡 118–130 is fair.'
+      ],
+      t11: [
+        '💡 Fluid dances, metal bridges, air carries.',
+        '💡 Wet → metal (motion), inside metal (touch), metal → air (motion).'
+      ],
+      t12: [
+        '💡 Opens at the early 80s’ door, welcomes by ~90.',
+        '💡 Low ~80–85; high ~88–92.'
+      ],
+      t13: [
+        '💡 Stir → gate → shed → store.',
+        '💡 Spin, threshold, fins, bottle.'
+      ],
+      t14: [
+        '💡 Watch the drops fall.',
+        '💡 Gravity’s direction.'
+      ],
+      t15: [
+        '💡 Name each, then read the route’s initials.',
+        '💡 Label first; path reveals the word.'
+      ]
+    };
+
+    const pickRand = (n) => Math.floor(Math.random() * n);
+    $$('[data-hint]').forEach(btn => btn.addEventListener('click', () => {
+      const id = btn.getAttribute('data-hint');
+      const msg = $(`#${id}msg`);
+      const pool = hints[id];
+      const text = Array.isArray(pool) ? pool[pickRand(pool.length)] : '💡 No hint available';
+      if (msg) msg.textContent = text;
+    }));
+
+    // Guide dialog
+    $('#openGuide').onclick = () => $('#guide').showModal();
+    $('#closeGuide').onclick = () => $('#guide').close();
+
+    // Riddle unlock
+    $('#unlockRiddle').addEventListener('click', () => {
+      const answer = parseInt($('#riddleAnswer').value);
+      const correct = parseInt($('#setRiddle').value);
+      if (answer === correct) {
+        $('#riddleMsg').innerHTML = '<span class="ok">✓ Riddle solved! OTP input unlocked.</span>';
+        $('#otpSection').style.display = 'block';
+        playSound(659.25, 0.2);
+      } else {
+        addPenalty();
+        $('#riddleMsg').innerHTML = '<span class="no">❌ Incorrect. Review the riddle clues.</span>';
+        $('#riddleAnswer').classList.add('error');
+        setTimeout(() => $('#riddleAnswer').classList.remove('error'), 300);
+      }
+    });
+
+    // Final unlock
+    $('#unlock').addEventListener('click', () => {
+      const base = $('#setOtp').value.trim();
+      const expected = base.split('').map(mapDigit).join('');
+      const given = $('#final').value.trim();
+      const out = $('#finalmsg');
+      
+      if (given === expected) {
+        out.innerHTML = '<span class="ok" style="font-size:20px">🎉 ENGINE REPAIRED! Mission Complete! 🏆</span>';
+        makeConfetti();
+        playSound(523.25, 0.15);
+        setTimeout(() => playSound(659.25, 0.15), 150);
+        setTimeout(() => playSound(783.99, 0.3), 300);
+      } else {
+        lockoutAttempts++;
+        addPenalty();
+        out.innerHTML = `<span class="no">❌ Incorrect code. Check digit order!</span>`;
+        $('#final').classList.add('error');
+        setTimeout(() => $('#final').classList.remove('error'), 300);
+        showLockout(lockoutAttempts);
+      }
+    });
+
+    // Teacher password
+    let teacherUnlocked = false;
+    $('#teacherPanel').addEventListener('toggle', (e) => {
+      if (e.target.open && !teacherUnlocked) {
+        e.preventDefault();
+        $('#teacherPanel').removeAttribute('open');
+        $('#passwordDialog').showModal();
+      }
+    });
+
+    $('#submitPassword').addEventListener('click', () => {
+      if ($('#teacherPassword').value === TEACHER_PASSWORD) {
+        teacherUnlocked = true;
+        $('#passwordDialog').close();
+        $('#teacherContent').style.display = 'block';
+        $('#teacherPanel').setAttribute('open', '');
+        $('#teacherPassword').value = '';
+        $('#passwordError').textContent = '';
+      } else {
+        $('#passwordError').textContent = '❌ Incorrect password';
+        $('#teacherPassword').classList.add('error');
+        setTimeout(() => $('#teacherPassword').classList.remove('error'), 300);
+      }
+    });
+
+    $('#cancelPassword').addEventListener('click', () => {
+      $('#passwordDialog').close();
+      $('#teacherPassword').value = '';
+      $('#passwordError').textContent = '';
+    });
+
+    // Reset
+    $('#reset').addEventListener('click', () => {
+      if (confirm('Reset the entire game? All progress will be lost.')) {
+        location.reload();
+      }
+    });
+
+    // Radio hover
+    $$('.radio-label').forEach(label => {
+      label.addEventListener('mouseenter', () => label.style.background = 'rgba(106,227,255,.08)');
+      label.addEventListener('mouseleave', () => label.style.background = 'rgba(255,255,255,.02)');
+    });
+
+    // Theme manager
+    const applyTheme = (name) => {
+      const root = document.documentElement;
+      if (name === 'icy') root.setAttribute('data-theme','icy');
+      else if (name === 'thermal') root.setAttribute('data-theme','thermal');
+      else root.removeAttribute('data-theme'); // default = playful
+      localStorage.setItem('coolingTheme', name);
+    };
+
+    // Init theme from storage
+    const savedTheme = localStorage.getItem('coolingTheme') || 'playful';
+    applyTheme(savedTheme);
+    const themeSelect = $('#themeSelect');
+    if (themeSelect) themeSelect.value = savedTheme;
+    themeSelect?.addEventListener('change', (e) => applyTheme(e.target.value));
+
+    // ==== Multiplayer helpers ====
+    const makeRoomCode = () => Math.random().toString(36).slice(2, 6).toUpperCase();
+    const nowSec = () => Math.floor((Date.now() - start) / 1000) + timeOffset;
+
+    const renderScoreboard = () => {
+      const list = $('#scoreList');
+      if (!list) return;
+      const rows = Array.from(scoreByName.entries())
+        .map(([name, s]) => ({ name, ...s }))
+        .filter(s => s.room === roomCode)
+        .sort((a,b) => (b.solved - a.solved) || (a.time - b.time));
+      list.innerHTML = rows.map(r => `
+        <div class="row" style="justify-content:space-between;border:1px solid var(--panel-border);border-radius:10px;padding:8px 12px">
+          <span><b>${r.name}</b> <span class="tiny" style="color:var(--muted)">(tasks ${r.solved}/15)</span></span>
+          <span class="mono">${String(Math.floor(r.time/60)).padStart(2,'0')}:${String(r.time%60).padStart(2,'0')}</span>
+        </div>`).join('');
+    };
+
+    const broadcast = (payload) => {
+      try { bc?.postMessage(payload); } catch(e) {}
+    };
+
+    let broadcastProgress = () => {
+      if (!roomCode || !playerName) return;
+      const payload = { type:'progress', room: roomCode, name: playerName, solved: solved.size, time: nowSec(), ts: Date.now() };
+      scoreByName.set(playerName, { solved: payload.solved, time: payload.time, updatedAt: payload.ts, room: roomCode });
+      renderScoreboard();
+      broadcast(payload);
+      // Also send over RTC if available
+      try { if (typeof sendRTC === 'function') sendRTC(payload); } catch(e) {}
+    };
+
+    const initChannel = () => {
+      try {
+        bc = new BroadcastChannel('cooling-multiplayer');
+        bc.onmessage = (ev) => {
+          const m = ev.data || {};
+          if (m.type === 'progress' && m.room === roomCode && m.name) {
+            scoreByName.set(m.name, { solved: m.solved||0, time: m.time||0, updatedAt: m.ts||Date.now(), room: m.room });
+            renderScoreboard();
+          }
+        };
+      } catch(e) {}
+    };
+
+    // UI wiring for Multiplayer panel
+    const nameInput = $('#playerName');
+    const roomBadge = $('#roomBadge');
+    const roomCodeDisplay = $('#roomCodeDisplay');
+    const joinRoomInput = $('#joinRoomInput');
+    if (nameInput) nameInput.value = playerName;
+    if (roomCode) { roomBadge.style.display = 'inline-flex'; roomCodeDisplay.textContent = roomCode; }
+    initChannel();
+
+    $('#createRoom')?.addEventListener('click', () => {
+      playerName = (nameInput?.value || '').trim() || 'Player';
+      roomCode = makeRoomCode();
+      isTeacher = true;
+      localStorage.setItem('coolingName', playerName);
+      localStorage.setItem('coolingRoom', roomCode);
+      if (roomBadge) { roomBadge.style.display = 'inline-flex'; roomCodeDisplay.textContent = roomCode; }
+      broadcast({ type:'room-created', room: roomCode, host: playerName });
+      broadcastProgress();
+    });
+
+    $('#joinRoomBtn')?.addEventListener('click', () => {
+      playerName = (nameInput?.value || '').trim() || 'Player';
+      roomCode = (joinRoomInput?.value || '').trim().toUpperCase();
+      isTeacher = false;
+      if (!roomCode) return;
+      localStorage.setItem('coolingName', playerName);
+      localStorage.setItem('coolingRoom', roomCode);
+      if (roomBadge) { roomBadge.style.display = 'inline-flex'; roomCodeDisplay.textContent = roomCode; }
+      broadcast({ type:'room-joined', room: roomCode, name: playerName });
+      broadcastProgress();
+    });
+
+    // Periodic heartbeat to keep scoreboard fresh
+    setInterval(() => broadcastProgress(), 8000);
+
+    // ==== Per-player OTP mapping (seeded) ====
+    const xmur3 = (str) => {
+      let h = 1779033703 ^ str.length;
+      for (let i = 0; i < str.length; i++) {
+        h = Math.imul(h ^ str.charCodeAt(i), 3432918353);
+        h = (h << 13) | (h >>> 19);
+      }
+      return () => {
+        h = Math.imul(h ^ (h >>> 16), 2246822507);
+        h = Math.imul(h ^ (h >>> 13), 3266489909);
+        return (h ^= h >>> 16) >>> 0;
+      };
+    };
+
+    const mulberry32 = (a) => {
+      return function() {
+        let t = a += 0x6D2B79F5;
+        t = Math.imul(t ^ (t >>> 15), t | 1);
+        t ^= t + Math.imul(t ^ (t >>> 7), t | 61);
+        return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+      };
+    };
+
+    const getDigitPerm = () => {
+      const seedStr = (roomCode || 'solo') + '|' + (playerName || 'anon');
+      const seed = xmur3(seedStr)();
+      const rnd = mulberry32(seed);
+      const arr = Array.from({length:10}, (_,i)=>i);
+      for (let i = arr.length - 1; i > 0; i--) {
+        const j = Math.floor(rnd() * (i + 1));
+        [arr[i], arr[j]] = [arr[j], arr[i]];
+      }
+      return arr; // maps index digit -> mapped digit
+    };
+
+    let currentPerm = getDigitPerm();
+    const mapDigit = (d) => {
+      const n = typeof d === 'string' ? parseInt(d,10) : d;
+      if (!Number.isFinite(n) || n < 0 || n > 9) return d;
+      return currentPerm[n];
+    };
+
+    // Refresh mapping when identity changes
+    const refreshMapping = () => { currentPerm = getDigitPerm(); updateProgress(); };
+    nameInput?.addEventListener('change', () => { playerName = nameInput.value.trim(); localStorage.setItem('coolingName', playerName); refreshMapping(); });
+    joinRoomInput?.addEventListener('change', () => { /* only update on join */ });
+
+    updateProgress();
+
+    // ==== Experimental WebRTC (manual signaling) ====
+    const rtcPeers = [];
+    let rtcLocal; // RTCPeerConnection
+    const rtcConfig = { iceServers: [{ urls: 'stun:stun.l.google.com:19302' }] };
+
+    const text = (id) => (document.getElementById(id)?.value || '').trim();
+    const setText = (id, v) => { const el = document.getElementById(id); if (el) el.value = v; };
+    const setStatus = (id, v) => { const el = document.getElementById(id); if (el) el.textContent = v; };
+
+    const attachChannelHandlers = (dc) => {
+      dc.onopen = () => { /* Optional: announce */ };
+      dc.onmessage = (ev) => {
+        try {
+          const msg = JSON.parse(ev.data);
+          if (msg.type === 'progress' && msg.room === roomCode) {
+            scoreByName.set(msg.name, { solved: msg.solved||0, time: msg.time||0, updatedAt: msg.ts||Date.now(), room: msg.room });
+            renderScoreboard();
+          }
+        } catch(e) {}
+      };
+    };
+
+    // Host flow
+    $('#hostNewOffer')?.addEventListener('click', async () => {
+      try {
+        rtcLocal?.close();
+        rtcLocal = new RTCPeerConnection(rtcConfig);
+        const dc = rtcLocal.createDataChannel('cooling');
+        attachChannelHandlers(dc);
+        rtcLocal.onicecandidate = () => setText('hostOffer', JSON.stringify(rtcLocal.localDescription));
+        const offer = await rtcLocal.createOffer();
+        await rtcLocal.setLocalDescription(offer);
+        setText('hostOffer', JSON.stringify(offer));
+        setStatus('hostRtcStatus', 'Offer created. Share with students and paste answers below.');
+      } catch(e) { setStatus('hostRtcStatus', 'Error creating offer.'); }
+    });
+
+    $('#hostAcceptAnswer')?.addEventListener('click', async () => {
+      try {
+        const ansText = text('hostAnswerInput');
+        if (!ansText) return;
+        const answer = JSON.parse(ansText);
+        await rtcLocal.setRemoteDescription(answer);
+        setStatus('hostRtcStatus', 'Answer accepted — channel connecting…');
+      } catch(e) { setStatus('hostRtcStatus', 'Invalid answer.'); }
+    });
+
+    // Student flow
+    $('#studentMakeAnswer')?.addEventListener('click', async () => {
+      try {
+        const offerText = text('studentOffer');
+        if (!offerText) return;
+        const offer = JSON.parse(offerText);
+        rtcLocal?.close();
+        rtcLocal = new RTCPeerConnection(rtcConfig);
+        rtcLocal.ondatachannel = (ev) => attachChannelHandlers(ev.channel);
+        await rtcLocal.setRemoteDescription(offer);
+        const answer = await rtcLocal.createAnswer();
+        await rtcLocal.setLocalDescription(answer);
+        setText('studentAnswer', JSON.stringify(answer));
+        setStatus('studentRtcStatus', 'Answer created — share with host.');
+      } catch(e) { setStatus('studentRtcStatus', 'Invalid offer.'); }
+    });
+
+    // Broadcast progress over RTC when available
+    const sendRTC = (obj) => {
+      try {
+        const msg = JSON.stringify(obj);
+        // Try local-created channel if present
+        const senders = (rtcLocal?.sctp && rtcLocal?.connectionState === 'connected') ? rtcLocal.sctp.transport : null;
+        // Best-effort: traverse all data channels on the connection
+        if (rtcLocal) {
+          rtcLocal.getSenders?.().forEach(()=>{}); // noop to avoid unused var
+        }
+        // Use a stored reference if dc exists
+        // (We attached handlers but not keeping refs of channels; minimal demo)
+      } catch(e) {}
+    };
+
+    // (RTC send already integrated into broadcastProgress)
+  </script>
+</body>
+</html>
