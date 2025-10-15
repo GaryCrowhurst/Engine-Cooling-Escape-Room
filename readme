@@ -1,140 +1,132 @@
-# Cooling System Escape — Guide
+# Engine Escape Challenge — Otto Cycle Mastery (revamped)
 
-Welcome to the Cooling System Escape challenge! This interactive single-page app helps students learn the automotive cooling system through mini-tasks, hints, and a final OTP unlock sequence.
 
-## Quick start
 Teacher Password: `otto1876`
 
-Open `index.html` in any modern browser.
+## 🎯 Major Changes
 
-- Sound can be toggled (🔊 button).
-- Wrong answers add a 10s time penalty (visible in the header).
-- As you solve tasks, you collect OTP digits (top bar).
-- Solve the small riddle to enable the OTP entry, then enter your 6-digit code (ascending order of first six unique digits found).
+### 1. **Penalty System**
+- Wrong answers now add **10 seconds** to the timer
+- Penalty counter shows total mistakes
+- Timer badge turns yellow when penalties accumulate
 
-### Themes
+### 2. **Lockout Mechanism** 🔒
+- After incorrect final unlock attempts, a dramatic lockout screen appears
+- Shows: *"Due to entering X incorrect answers you will need to wait Y seconds..."*
+- Countdown timer with 15 seconds per attempt
+- Dark overlay with red styling
 
-- Use the Theme selector (top-right) to switch between Playful, Icy, and Thermal looks.
-- The choice is saved for your next visit.
+### 3. **OTP Badges Repositioned**
+- Moved from top-right to **bottom-right** of each task card
+- No longer covers content
+- Easier to read while working
 
-## Tasks overview
+### 4. **Task 8 - Completely Redesigned** 🎨
+- New color cipher puzzle that spells **"FIRE"**
+- 4 drivetrain boxes with colored borders
+- Color key: Red=I, Yellow=R, Green=E, Blue=A
+- More challenging decode sequence
+- Visual letters as watermarks in boxes
 
-1. Coolant Flow Order — Select Pump → Engine Block → Thermostat → Radiator.
-2. Cooling Component Functions — Match pump/thermostat/radiator/cap to their roles.
-3. Unscramble Cooling Terms — Radiator, Thermostat, Coolant, Reservoir.
-4. Recommended Mix — Enter 50:50 (also accepts 50/50, 5050, 1:1).
-5. Diagnostic Analysis — Overheats at idle but cools at speed → Fan inoperative.
-6. Pressure Conversion — Convert 1.1 bar → ~16 psi.
-7. Flow Initials — PETR.
-8. Thermostat States — 30°C, 80°C, 95°C → CPO.
-9. Symptom Correlation — Map heater/white smoke/coolant loss to likely causes.
-10. Boiling Point — Accepts 118–130°C for 50/50 under pressure.
-11. Heat Transfer Modes — Coolant→wall (Convection), through metal (Conduction), fin→air (Convection).
-12. Thermostat Opening Range — Accepts a sensible range like low 80–85 and high 88–92 (e.g., 80–90).
-13. Cooling Riddle — pump-thermostat-radiator-reservoir (also pump-stat-radiator-reservoir).
-14. Radiator Flow Direction — Top-to-bottom (animated SVG).
-15. Label the Cooling Diagram — Fill all 15 labels, then decode first letters via the path to complete the task.
+### 5. **Updated Terminology**
+- Primary: **Induction, Compression, Combustion, Exhaust**
+- Hints reference: "Suck, Squeeze, Bang, Blow"
+- More technical and professional
+- Changed intake emoji: 🫁 → **💨**
 
-## Task 15 diagram key (canonical labels)
+### 6. **Better Hints System** 💡
+- Much more cryptic - don't give away answers
+- Educational prompts instead of direct solutions
+- Example: "Think about engine breathing: in, squeeze, fire, out" vs. old direct answers
 
-These are used for fuzzy-matching your entries:
+### 7. **Final Unlock Riddle** 🧩
+- Must solve math riddle first: `(1876-1800) × 4 ÷ 10 = 30`
+- Uses Otto's patent year, stroke count, and compression ratio
+- OTP section only unlocks after solving riddle
+- Must arrange digits in **ascending order** (not auto-fill)
 
-1. Radiator
-2. Radiator cap
-3. Upper hose
-4. Thermostat housing
-5. Thermostat
-6. Cylinder head
-7. Engine block
-8. Water pump
-9. Lower hose
-10. Heater core
-11. Heater hoses
-12. Cooling fan
-13. Fan shroud
-14. Expansion tank
-15. Temperature sensor
+### 8. **More Content** 📚
+- **13 tasks total** (was 10)
+- New questions:
+ 	- **Task 10**: Compression ratio calculation
+ 	- **Task 11**: Thermal efficiency/power stroke
+ 	- **Task 12**: Valve timing (BTDC/ATDC)
+- More engaging variety
 
-The secret message path is: 7→1→13→4→9→2→15→8→3→11→5→14→6→10→12. Enter the resulting 15-letter code in the Task 15 input.
+### 9. **Password-Protected Teacher Console** 🔐
+- Password: **`otto1876`**
+- Dialog modal for authentication
+- Prevents students from seeing answers
+- Controls for OTP and riddle answer
 
-## Teacher controls
+## 🎨 Additional Polish
 
-Open the Teacher Controls panel at the bottom. Password: `otto1876`.
+- **Error animations**: Inputs shake when wrong
+- **Visual feedback**: Red borders on incorrect attempts
+- **Sound effects**: Different tones for success/failure
+- **Better mobile**: Improved responsive layout
+- **Accessibility**: Better focus states and keyboard nav
 
-- Winning OTP (ascending order): configure string of 6 digits.
-- Riddle Answer: default `42` (88 + 4 − 50); adjust for your class if desired.
-- Task 15 expected code: update if you change labels/sequence.
-- Reset Game: reloads the page to clear progress.
+## 📹 Video Integration Ready
 
-## Theming
+The code is structured to easily add video embeds. You can insert them like:
 
-The page supports multiple themes via CSS variables in `index-cooling.html`:
+```html
+<div style="margin:12px 0">
+	<img src="https://media.giphy.com/media/[ID]/giphy.gif" 
+			 alt="Four-stroke animation" 
+			 style="width:100%;border-radius:8px"/>
+</div>
+```
 
-- `--bg`, `--panel`, `--ink`, `--muted`, `--accent`, `--good`, `--bad`, `--warn`.
-- Buttons, panels, and progress bar colors inherit from these variables.
+Or for hosted videos, add in task descriptions or the reference guide.
 
-To tweak the look:
-- Adjust the gradient layers on the `body` for different ambient effects.
-- Change `--accent` for a different highlight hue.
-- Edit `.panel`, `.btn`, and `.badge` for alternative styles.
+## 🔧 Suggested New Tasks / Ideas
 
-## Media suggestions
+- Add a question using the 1342 firing order GIF: ask learners to identify the firing order (cryptic hint + multiple choice)
+- Add a TDC/BDC primer question (what is TDC/BDC; which valves open?) and a follow-up: at 3000 rpm how many times per second does the piston go from TDC→BDC?
+- Create an exercise where students use cylinder bore and stroke numbers from a diagram to compute single-cylinder displacement, multiply by 4 to get total displacement, then use that result in a riddle to unlock the final code.
+- Add a labeling task using the GIF `1243firingordergifKaw.gif`: learners label four components, then take the first letter of each label in anti-clockwise order (filename sequence 1-2-4-3) to form the 4-letter code.
 
-- Add a short loop (GIF/WebM/MP4) of radiator airflow or fan operation to enrich Task 14.
-- Add a high-resolution photo of a thermostat or radiator cap near Tasks 2/12.
+## ✅ How to use / Test
 
-Place your files in the same folder and reference them using `<img src="your-file" />` or a `<video>` tag. The app also includes a self-contained SVG diagram for Task 15, so it works without extra assets.
+1. Open `index.html` in a browser to run the challenge locally.
+2. Teacher console: open the "Teacher Controls" panel and enter the password above to reveal the admin controls.
 
-## Multiplayer (Beta)
+## Next steps (optional)
 
-You can play locally across tabs/windows and optionally across devices.
+- Add the 1342 firing order GIF into the tasks folder and create Task 14 for advanced mechanics.
+- Add short unit tests for the riddle arithmetic and OTP ordering logic.
+- Integrate a small README badge with "play" status once deployed.
 
-- Enter your name, then:
-	- Teacher clicks Create Room (a 4-char code displays). Share this code.
-	- Students enter the room code and click Join.
-- Scoreboard will show each player’s solved count and elapsed time.
-- Each player gets a unique OTP mapping (based on room + name), so final codes differ.
+---
 
-Cross-device realtime:
+If you'd like, I can also add the firing-order GIF, create the new TDC/BDC RPM questions directly in `index.html`, and wire up the cylinder-displacement unlock riddle as a new interactive task. Tell me which of those you'd like me to implement next.
 
-1. Start the included WebSocket relay server (Node 18+):
-	 - `node server.js`
-	 - You’ll see: `WebSocket relay running on ws://localhost:3000`
-2. In the app’s Multiplayer section, set Server (WebSocket) to `ws://<yourhost>:3000`.
-3. Create/join the room again. Progress will sync across devices.
+## 🔎 Answer sheet (for quick testing — teacher use only)
 
-Experimental WebRTC:
+Below are the canonical answers to speed up QA or classroom demos. This section is intended for teachers and should be kept private.
 
-- Without a server, use the “Experimental: Peer-to-Peer (WebRTC)” section to copy/paste offers/answers.
-- This is a demo scaffold; use the WebSocket server for a smoother experience.
+- Task 1 — Cycle Order: Induction, Compression, Combustion, Exhaust (emoji key in UI: 💨 = Induction, 🔩 = Compression, 💥 = Combustion, 🌫️ = Exhaust)
+- Task 2 — Component Functions: 1=D, 2=C, 3=B, 4=A
+- Task 3 — Unscramble: induction, compression, combustion, exhaust
+- Task 4 — Historical Context: 1876
+- Task 5 — Diagnostic Analysis: Combustion
+- Task 6 — Firing Order Decoder (sum): 10
+- Task 7 — Colloquial Initials: SSBB
+- Task 8 — Drivetrain Color Cipher: FIRE
+- Task 9 — Symptom Correlation: 1=Induction, 2=Compression, 3=Exhaust
+- Task 10 — Compression Ratio: 10:1
+- Task 11 — Thermal Efficiency: Combustion
+- Task 12 — Valve Timing: 10° BTDC
+- Task 13 — Cycle Riddle: induction-compression-combustion-exhaust (or suck-squeeze-bang-blow)
+- Task 14 — Firing Order (GIF MCQ): 1-3-4-2
+- Task 15 — Label the Diagram (assembled 15-letter code): CVIVCBCCVVCWPC
 
-## Troubleshooting
+Final puzzle (riddle): 30
 
-- If answers seem correct but aren’t accepted, check spacing and spelling. Some fields use fuzzy-matching, but short labels may still need to match.
-- If sound fails on first play, browser may require a user gesture (click anywhere, then toggle sound).
-- Use Teacher Controls to reveal/change the expected riddle and Task 15 code for debugging.
-- If cross-device scoreboard doesn’t update, verify the WebSocket server URL and that your firewall allows connections.
+Teacher controls:
+- Teacher password: `otto1876`
+- Set OTP (ascending order) default used for demos: `012345`
 
-Have fun, and stay cool! ❄️
-
-## Hosting on GitHub Pages
-
-This app is a single, static HTML file and works great on GitHub Pages out of the box.
-
-What works on Pages:
-- All tasks, hints, timer, penalties, riddle, OTP logic
-- Theme toggle and persistence
-- Local scoreboard sync across tabs/windows in the same browser profile (BroadcastChannel)
-
-For cross-device multiplayer you need a server:
-- The included `server.js` is a tiny WebSocket relay intended to run elsewhere (for example on a small VM or Render/Fly/Glitch). GitHub Pages can’t run Node servers.
-- When deployed publicly, use a secure WebSocket URL (wss://). Many browsers block ws:// from https pages.
-- Enter your relay URL in the Multiplayer panel under “Server (WebSocket)” and then create/join a room.
-
-Optional P2P (experimental):
-- The manual WebRTC copy/paste flow can work without a server, but it’s fiddly and not guaranteed across restricted networks. Prefer the WebSocket relay for classrooms.
-
-Setup tips:
-1) Push this repo to GitHub and enable Pages for the `main` branch (root). Your app will be at `https://<user>.github.io/<repo>/index-cooling.html`.
-2) If using the relay, deploy `server.js` to any Node host and note the `wss://` URL.
-3) Open the app, set your name/room, and (optionally) set the server URL to sync progress across devices.
+Use this sheet to pre-fill teacher controls in the Teacher Panel for quick demos. Remember to close the panel or clear answers before handing the device back to students.
