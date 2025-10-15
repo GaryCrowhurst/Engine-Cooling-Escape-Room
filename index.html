@@ -373,6 +373,10 @@
           <b>Your name</b>
           <input id="playerName" placeholder="e.g., Alex" />
         </label>
+        <label style="display:grid;gap:6px">
+          <b>Server (WebSocket)</b>
+          <input id="wsUrl" placeholder="ws://localhost:3000" />
+        </label>
         <div class="row" style="gap:8px;align-items:end">
           <button class="btn" id="createRoom">Create Room</button>
           <span class="badge" id="roomBadge" style="display:none">Room: <b id="roomCodeDisplay" class="mono"></b></span>
@@ -956,6 +960,8 @@
   let isTeacher = false;
   const scoreByName = new Map(); // name -> { solved, time, updatedAt }
   let bc;
+  let ws; // WebSocket connection
+  let wsUrl = localStorage.getItem('coolingWsUrl') || '';
 
     // State
     let soundEnabled = true;
@@ -1491,6 +1497,7 @@
 
     const broadcast = (payload) => {
       try { bc?.postMessage(payload); } catch(e) {}
+      try { if (ws && ws.readyState === WebSocket.OPEN) ws.send(JSON.stringify(payload)); } catch(e) {}
     };
 
     let broadcastProgress = () => {
@@ -1516,21 +1523,55 @@
       } catch(e) {}
     };
 
+    const initWebSocket = (url) => {
+      try {
+        if (!url) return;
+        if (ws) { try { ws.close(); } catch(e) {} ws = null; }
+        ws = new WebSocket(url);
+        ws.onopen = () => {
+          // Identify room on connect
+          if (roomCode) {
+            ws.send(JSON.stringify({ type:'join', room: roomCode, name: playerName }));
+          }
+        };
+        ws.onmessage = (ev) => {
+          try {
+            const m = JSON.parse(ev.data);
+            if (m.type === 'progress' && m.room === roomCode && m.name) {
+              scoreByName.set(m.name, { solved: m.solved||0, time: m.time||0, updatedAt: m.ts||Date.now(), room: m.room });
+              renderScoreboard();
+            }
+            if (m.type === 'join' && m.room === roomCode && m.name && m.name !== playerName) {
+              // Another player joined; request their progress broadcast
+              broadcastProgress();
+            }
+          } catch(e) {}
+        };
+        ws.onerror = () => {};
+        ws.onclose = () => {};
+      } catch(e) {}
+    };
+
     // UI wiring for Multiplayer panel
-    const nameInput = $('#playerName');
+  const nameInput = $('#playerName');
+  const wsInput = $('#wsUrl');
     const roomBadge = $('#roomBadge');
     const roomCodeDisplay = $('#roomCodeDisplay');
     const joinRoomInput = $('#joinRoomInput');
     if (nameInput) nameInput.value = playerName;
+  if (wsInput) wsInput.value = wsUrl;
     if (roomCode) { roomBadge.style.display = 'inline-flex'; roomCodeDisplay.textContent = roomCode; }
     initChannel();
+  initWebSocket(wsUrl);
 
     $('#createRoom')?.addEventListener('click', () => {
       playerName = (nameInput?.value || '').trim() || 'Player';
+      wsUrl = (wsInput?.value || '').trim();
       roomCode = makeRoomCode();
       isTeacher = true;
       localStorage.setItem('coolingName', playerName);
       localStorage.setItem('coolingRoom', roomCode);
+      if (wsUrl) { localStorage.setItem('coolingWsUrl', wsUrl); initWebSocket(wsUrl); }
       if (roomBadge) { roomBadge.style.display = 'inline-flex'; roomCodeDisplay.textContent = roomCode; }
       broadcast({ type:'room-created', room: roomCode, host: playerName });
       broadcastProgress();
@@ -1538,11 +1579,13 @@
 
     $('#joinRoomBtn')?.addEventListener('click', () => {
       playerName = (nameInput?.value || '').trim() || 'Player';
+      wsUrl = (wsInput?.value || '').trim();
       roomCode = (joinRoomInput?.value || '').trim().toUpperCase();
       isTeacher = false;
       if (!roomCode) return;
       localStorage.setItem('coolingName', playerName);
       localStorage.setItem('coolingRoom', roomCode);
+      if (wsUrl) { localStorage.setItem('coolingWsUrl', wsUrl); initWebSocket(wsUrl); }
       if (roomBadge) { roomBadge.style.display = 'inline-flex'; roomCodeDisplay.textContent = roomCode; }
       broadcast({ type:'room-joined', room: roomCode, name: playerName });
       broadcastProgress();
@@ -1601,8 +1644,9 @@
     updateProgress();
 
     // ==== Experimental WebRTC (manual signaling) ====
-    const rtcPeers = [];
-    let rtcLocal; // RTCPeerConnection
+  const rtcPeers = [];
+  let rtcLocal; // RTCPeerConnection
+  const rtcChannels = new Set();
     const rtcConfig = { iceServers: [{ urls: 'stun:stun.l.google.com:19302' }] };
 
     const text = (id) => (document.getElementById(id)?.value || '').trim();
@@ -1610,6 +1654,7 @@
     const setStatus = (id, v) => { const el = document.getElementById(id); if (el) el.textContent = v; };
 
     const attachChannelHandlers = (dc) => {
+      rtcChannels.add(dc);
       dc.onopen = () => { /* Optional: announce */ };
       dc.onmessage = (ev) => {
         try {
@@ -1620,6 +1665,7 @@
           }
         } catch(e) {}
       };
+      dc.onclose = () => rtcChannels.delete(dc);
     };
 
     // Host flow
@@ -1668,14 +1714,9 @@
     const sendRTC = (obj) => {
       try {
         const msg = JSON.stringify(obj);
-        // Try local-created channel if present
-        const senders = (rtcLocal?.sctp && rtcLocal?.connectionState === 'connected') ? rtcLocal.sctp.transport : null;
-        // Best-effort: traverse all data channels on the connection
-        if (rtcLocal) {
-          rtcLocal.getSenders?.().forEach(()=>{}); // noop to avoid unused var
-        }
-        // Use a stored reference if dc exists
-        // (We attached handlers but not keeping refs of channels; minimal demo)
+        rtcChannels.forEach(dc => {
+          try { if (dc.readyState === 'open') dc.send(msg); } catch(e) {}
+        });
       } catch(e) {}
     };
 
