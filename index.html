@@ -6,7 +6,6 @@
   <title>Cooling System Escape • Thermal Lab Edition</title>
   <style>
     :root{
-      /* Defaults = Playful Workshop */
       --bg:#f8fafc;
       --panel:#ffffff;
       --ink:#1f2937;
@@ -15,7 +14,6 @@
       --good:#16a34a;
       --bad:#ef4444;
       --warn:#f59e0b;
-      /* Themed surfaces */
       --bg-gradient: radial-gradient(900px 600px at 90% -10%, rgba(106,92,255,.12), transparent 60%),
         radial-gradient(700px 500px at 10% 110%, rgba(0,224,163,.12), transparent 60%),
         linear-gradient(180deg,#f8fafc 0%, #ffffff 50%, #f4f7fb 100%);
@@ -90,7 +88,7 @@
     }
     h1,h2,h3{line-height:1.1;margin:0 0 .35rem}
     h1{font-size:clamp(24px,3vw,36px)}
-    h2{font-size:clamp(18px,2.2vw,24px);color:#dce3ff}
+    h2{font-size:clamp(18px,2.2vw,24px)}
     .wrap{max-width:1200px;margin:auto;padding:20px}
     .grid{display:grid;gap:16px}
     .cols{grid-template-columns:repeat(auto-fit,minmax(300px,1fr))}
@@ -104,7 +102,7 @@
       transition:transform .3s ease, box-shadow .3s ease, border-color .2s ease;
     }
     
-  .panel:hover{transform:translateY(-2px);box-shadow:0 16px 40px rgba(31,41,55,.12);border-color:rgba(106,92,255,.25)}
+    .panel:hover{transform:translateY(-2px);box-shadow:0 16px 40px rgba(31,41,55,.12);border-color:rgba(106,92,255,.25)}
     
     .task-card{position:relative;overflow:hidden;padding-bottom:48px}
     .task-card::before{
@@ -135,9 +133,9 @@
     }
     .btn:hover:not(:disabled){transform:translateY(-2px);box-shadow:0 10px 26px rgba(106,92,255,.35)}
     .btn:active:not(:disabled){transform:translateY(0)}
-  .btn.secondary{background:linear-gradient(135deg,#f3f4f6,#e5e7eb);box-shadow:0 4px 12px rgba(31,41,55,.1);color:#111827}
-  .btn.ghost{background:transparent;border:1px solid var(--accent);box-shadow:none;color:var(--ink)}
-  .btn.ghost:hover:not(:disabled){background:rgba(0,0,0,.04)}
+    .btn.secondary{background:linear-gradient(135deg,#f3f4f6,#e5e7eb);box-shadow:0 4px 12px rgba(31,41,55,.1);color:#111827}
+    .btn.ghost{background:transparent;border:1px solid var(--accent);box-shadow:none;color:var(--ink)}
+    .btn.ghost:hover:not(:disabled){background:rgba(0,0,0,.04)}
     .btn:disabled{opacity:.4;cursor:not-allowed;transform:none!important}
     
     .badge{
@@ -237,7 +235,6 @@
       color:var(--bad);display:inline-flex;align-items:center;gap:.3rem;
     }
 
-  /* Task 15 specific styles */
     .t15-container{
       display:grid;
       grid-template-columns:minmax(180px,1fr) minmax(640px,3fr) minmax(180px,1fr);
@@ -275,6 +272,46 @@
       width:100%;
       display:block;
     }
+
+    /* Intro Video Modal */
+    .intro-modal {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,.95);
+      backdrop-filter: blur(10px);
+      display: grid;
+      place-items: center;
+      z-index: 9999;
+      animation: fadeIn .5s;
+    }
+    .intro-container {
+      background: var(--panel-bg);
+      border: 2px solid var(--panel-border);
+      border-radius: 20px;
+      padding: 32px;
+      max-width: 900px;
+      width: 90%;
+      box-shadow: 0 30px 90px rgba(0,0,0,.5);
+    }
+    .intro-video-wrapper {
+      position: relative;
+      padding-bottom: 56.25%;
+      height: 0;
+      overflow: hidden;
+      border-radius: 12px;
+      margin: 20px 0;
+    }
+    .intro-video-wrapper iframe {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
     
     @media(max-width:1024px){
       .t15-container{
@@ -286,7 +323,7 @@
       }
     }
 
-  @media(max-width:768px){
+    @media(max-width:768px){
       .wrap{padding:16px}
       h1{font-size:22px}
       h2{font-size:18px}
@@ -305,15 +342,10 @@
       .task-card[style*="grid-column:span"]{
         grid-column:1 !important;
       }
-    }
-
-    /* Match inline SVG cold-blue accents to new theme */
-    .t15-diagram svg [stroke="#6ae3ff"],
-    .t15-diagram svg [fill="#6ae3ff"],
-    .car-diagram svg [stroke="#6ae3ff"],
-    .car-diagram svg [fill="#6ae3ff"]{
-      stroke: var(--accent) !important;
-      fill: var(--accent) !important;
+      .intro-container {
+        padding: 20px;
+        width: 95%;
+      }
     }
 
     @media(max-width:480px){
@@ -329,10 +361,35 @@
       .token{font-size:11px;padding:.3rem .5rem}
       .lockout-timer{font-size:48px}
       .lockout-box{padding:24px}
+      .intro-container {
+        padding: 16px;
+      }
     }
   </style>
 </head>
 <body>
+  <!-- INTRO VIDEO MODAL -->
+  <div class="intro-modal" id="introModal">
+    <div class="intro-container">
+      <h1 style="text-align:center;margin-bottom:16px">🌡️ Welcome to Cooling System Escape!</h1>
+      <p style="text-align:center;color:var(--muted);margin-bottom:20px">Watch this introduction video to learn how the game works</p>
+      <div class="intro-video-wrapper">
+        <iframe 
+          src="https://www.youtube.com/embed/zT_UWfxgtfc?si=EOjl8kIxzfjqmYfq&autoplay=1" 
+          title="Cooling System Introduction" 
+          frameborder="0" 
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+          allowfullscreen>
+        </iframe>
+      </div>
+      <div style="display:flex;gap:12px;justify-content:center;margin-top:24px">
+        <button class="btn" id="startGame" style="font-size:18px;padding:1rem 2rem">🚀 Start Challenge</button>
+        <button class="btn ghost" id="skipIntro">Skip Video</button>
+      </div>
+      <p class="tiny" style="text-align:center;margin-top:16px">You can replay this video anytime from the Reference Guide</p>
+    </div>
+  </div>
+
   <div class="wrap grid" style="gap:24px">
     <header class="panel grid" style="gap:12px">
       <div class="row" style="justify-content:space-between;flex-wrap:wrap">
@@ -352,7 +409,7 @@
           </select>
         </div>
       </div>
-  <p class="hint" style="max-width:900px">Crack the tasks, earn <b>6 OTP digits</b>, and unlock the final code. Make mistakes? No stress—keep learning! <span class="warn">Heads up: wrong answers add small time penalties.</span></p>
+      <p class="hint" style="max-width:900px">Crack the tasks, earn <b>6 OTP digits</b>, and unlock the final code. Make mistakes? No stress—keep learning! <span class="warn">Heads up: wrong answers add small time penalties.</span></p>
       <div class="progress"><i id="bar"></i></div>
       <div class="row" style="gap:12px;flex-wrap:wrap">
         <span class="badge header-badge">Tasks: <b class="mono" id="solved">0/15</b></span>
@@ -363,10 +420,9 @@
       </div>
     </header>
 
-  <!-- MULTIPLAYER (Room-code with auto P2P via signaling) -->
     <section class="panel" id="multiplayer" style="display:block">
       <h2>👥 Multiplayer</h2>
-  <p class="hint">Enter a room code to join a room. Other devices with the same code will auto-connect P2P. Same-device tabs also sync.</p>
+      <p class="hint">Enter a room code to join a room. Other devices with the same code will auto-connect. Same-device tabs also sync.</p>
       <div class="grid" style="grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px;margin:10px 0">
         <label style="display:grid;gap:6px">
           <b>Your name</b>
@@ -383,7 +439,7 @@
       <div style="margin-top:10px">
         <h3 style="margin-bottom:6px">🏁 Scoreboard</h3>
         <div id="scoreList" style="display:grid;gap:8px"></div>
-  <div class="tiny" id="p2pStatus" style="margin-top:6px;color:var(--muted)">Peers connected: <b class="mono" id="p2pCount">0</b> · Room: <b class="mono" id="roomLabel">—</b> · You: <b class="mono" id="selfLabel">—</b></div>
+        <div class="tiny" id="p2pStatus" style="margin-top:6px;color:var(--muted)">Peers connected: <b class="mono" id="p2pCount">0</b> · Room: <b class="mono" id="roomLabel">—</b> · You: <b class="mono" id="selfLabel">—</b></div>
       </div>
     </section>
 
@@ -513,8 +569,8 @@
 
       <!-- TASK 7 -->
       <article class="panel task-card" data-task="t7" data-token="2">
-  <h2>Task 7 — Flow Initials</h2>
-  <p>Enter the initials of the primary coolant flow path in order.</p>
+        <h2>Task 7 — Flow Initials</h2>
+        <p>Enter the initials of the primary coolant flow path in order.</p>
         <div class="row">
           <input id="t7" class="mono" placeholder="4 letters" maxlength="4" style="width:160px;font-size:18px;text-align:center;text-transform:uppercase"/>
           <button class="btn" data-check="t7">Submit</button>
@@ -524,13 +580,26 @@
         <div class="token">🎫 <b>2</b></div>
       </article>
 
-      <!-- TASK 8 - THERMOSTAT STATES -->
+      <!-- TASK 8 -->
       <article class="panel task-card" data-task="t8" data-token="5" style="grid-column:span 2">
         <h2>Task 8 — Thermostat States</h2>
-  <p>Three snapshots of engine temperature. For each, enter <b>C</b>=Closed, <b>P</b>=Partial, or <b>O</b>=Open for <b>30°C</b>, <b>80°C</b>, <b>95°C</b>.</p>
+        <p>Three snapshots of engine temperature. For each, enter <b>C</b>=Closed, <b>P</b>=Partial, or <b>O</b>=Open for <b>30°C</b>, <b>80°C</b>, <b>95°C</b>.</p>
         <div style="display:grid;grid-template-columns:1fr;gap:12px;margin:16px 0">
           <div class="car-diagram">
-            <img src="cooling1.jpeg" alt="Thermostat states reference" style="width:100%;height:auto;display:block;border-radius:8px" onerror="this.onerror=null;this.src='engine_diagram.png'"/>
+            <svg viewBox="0 0 800 200" style="width:100%;height:auto">
+              <text x="130" y="30" font-size="20" fill="currentColor" font-weight="bold">30°C</text>
+              <text x="390" y="30" font-size="20" fill="currentColor" font-weight="bold">80°C</text>
+              <text x="650" y="30" font-size="20" fill="currentColor" font-weight="bold">95°C</text>
+              <rect x="50" y="50" width="160" height="120" rx="10" fill="none" stroke="var(--accent)" stroke-width="3"/>
+              <rect x="310" y="50" width="160" height="120" rx="10" fill="none" stroke="var(--accent)" stroke-width="3"/>
+              <rect x="570" y="50" width="160" height="120" rx="10" fill="none" stroke="var(--accent)" stroke-width="3"/>
+              <circle cx="130" cy="110" r="30" fill="none" stroke="var(--bad)" stroke-width="4"/>
+              <line x1="130" y1="110" x2="130" y2="85" stroke="var(--bad)" stroke-width="3"/>
+              <circle cx="390" cy="110" r="30" fill="none" stroke="var(--warn)" stroke-width="4"/>
+              <path d="M 390 110 L 410 95" stroke="var(--warn)" stroke-width="3"/>
+              <circle cx="650" cy="110" r="30" fill="none" stroke="var(--good)" stroke-width="4"/>
+              <line x1="650" y1="110" x2="670" y2="110" stroke="var(--good)" stroke-width="3"/>
+            </svg>
           </div>
         </div>
         <div class="row">
@@ -599,8 +668,8 @@
 
       <!-- TASK 12 -->
       <article class="panel task-card" data-task="t12" data-token="3">
-  <h2>Task 12 — Thermostat Opening Range</h2>
-  <p>Enter a sensible <b>opening range</b> in °C.</p>
+        <h2>Task 12 — Thermostat Opening Range</h2>
+        <p>Enter a sensible <b>opening range</b> in °C.</p>
         <div class="row">
           <input id="t12low" type="number" placeholder="low °C" style="width:140px"/>
           <span>–</span>
@@ -623,7 +692,7 @@
             Then keep some spare in tank that's laid."
           </p>
         </div>
-  <p class="tiny">Enter the four words separated by dashes.</p>
+        <p class="tiny">Enter the four words separated by dashes.</p>
         <div class="row">
           <input id="t13" placeholder="word-word-word-word" style="flex:1;min-width:200px"/>
           <button class="btn" data-check="t13">Submit</button>
@@ -673,33 +742,22 @@
         <div class="token">🎫 <b>7</b></div>
       </article>
 
-  <!-- TASK 15 - LABEL THE DIAGRAM -->
-  <article class="panel task-card" data-task="t15" data-token="4" style="grid-column:1 / -1">
+      <!-- TASK 15 -->
+      <article class="panel task-card" data-task="t15" data-token="4" style="grid-column:1 / -1">
         <h2>Task 15 — Decode the Cooling System</h2>
-        <p>Label all 15 numbered parts in the cooling system diagram. Then take the <b>first letter</b> of each along the path to reveal the message.</p>
+        <p>Label all 9 numbered parts in the cooling system diagram. Then take the <b>first letter</b> of each along the path to reveal the message.</p>
         
         <div class="t15-container">
           <div class="t15-column">
             <div style="font-weight:700;margin-bottom:12px;color:var(--accent)">Left Column</div>
+            <label>1: <input id="t15_1"/></label>
             <label>2: <input id="t15_2"/></label>
             <label>3: <input id="t15_3"/></label>
-            <label>4: <input id="t15_4"/></label>
-            <label>5: <input id="t15_5"/></label>
-            <label>6: <input id="t15_6"/></label>
-            <label>7: <input id="t15_7"/></label>
-            <label>8: <input id="t15_8"/></label>
-            <label>9: <input id="t15_9"/></label>
           </div>
           
           <div class="t15-center">
-            <div style="margin-bottom:12px;text-align:center">
-              <div style="font-weight:700;margin-bottom:6px;color:var(--accent)">Top Center</div>
-              <label style="display:flex;flex-direction:column;gap:4px;align-items:center">
-                1: <input id="t15_1" style="width:220px;font-size:14px"/>
-              </label>
-            </div>
             <div class="t15-diagram">
-              <img src="cooling2.jpeg" alt="Cooling system diagram" style="width:100%;height:auto;display:block" onerror="this.onerror=null;this.src='engine_diagram.png'"/>
+              <img src="cooling.jpeg" alt="Cooling system diagram" style="width:100%;height:auto;display:block" onerror="this.onerror=null;this.src='engine_diagram.png'"/>
             </div>
             <div class="tiny" style="margin-top:12px;text-align:center;padding:8px;background:rgba(255,255,255,.02);border-radius:8px">
               Match each number to its cooling component name
@@ -708,22 +766,22 @@
 
           <div class="t15-column">
             <div style="font-weight:700;margin-bottom:12px;color:var(--accent)">Right Column</div>
-            <label>10: <input id="t15_10"/></label>
-            <label>11: <input id="t15_11"/></label>
-            <label>12: <input id="t15_12"/></label>
-            <label>13: <input id="t15_13"/></label>
-            <label>14: <input id="t15_14"/></label>
-            <label>15: <input id="t15_15"/></label>
+            <label>4: <input id="t15_4"/></label>
+            <label>5: <input id="t15_5"/></label>
+            <label>6: <input id="t15_6"/></label>
+            <label>7: <input id="t15_7"/></label>
+            <label>8: <input id="t15_8"/></label>
+            <label>9: <input id="t15_9"/></label>
           </div>
         </div>
 
         <div style="margin-top:20px;padding:16px;background:rgba(106,227,255,.05);border-left:4px solid var(--accent);border-radius:8px">
           <p style="font-weight:600;margin:0 0 8px 0">🔐 Secret Sequence Decoder:</p>
-          <p class="tiny" style="margin:0">Once all components are labeled, enter the decoded message from the first letters following this path: <b>7→1→13→4→9→2→15→8→3→11→5→14→6→10→12</b></p>
+          <p class="tiny" style="margin:0">Once all components are labeled, enter the decoded message from the first letters following this path: <b>1→2→3→4→5→6→7→8→9</b></p>
         </div>
 
         <div class="row" style="margin-top:16px;align-items:center;gap:12px">
-          <input id="t15code" class="mono" placeholder="15-letter code" maxlength="15" style="flex:1;font-size:18px;text-align:center;text-transform:uppercase;letter-spacing:2px"/>
+          <input id="t15code" class="mono" placeholder="9-letter code" maxlength="9" style="flex:1;font-size:18px;text-align:center;text-transform:uppercase;letter-spacing:2px"/>
           <button class="btn" data-check="t15">Decode Message</button>
           <button class="btn ghost" data-hint="t15">💡 Hint</button>
         </div>
@@ -733,7 +791,7 @@
 
     </section>
 
-    <!-- FINAL LOCK WITH RIDDLE -->
+    <!-- FINAL LOCK -->
     <section class="panel" style="background:linear-gradient(180deg,rgba(106,227,255,.08),rgba(0,0,0,.08))">
       <h2>🔐 Final Lock — Decode the OTP</h2>
       <p>You've collected 6 OTP digits. But first, solve this cooling riddle to unlock the input:</p>
@@ -762,7 +820,7 @@
       </div>
     </section>
 
-    <!-- TEACHER CONTROLS WITH PASSWORD -->
+    <!-- TEACHER CONTROLS -->
     <details class="panel" id="teacherPanel">
       <summary><b>👨‍🏫 Teacher Controls</b></summary>
       <div id="teacherContent" style="display:none">
@@ -777,16 +835,16 @@
               <input id="setRiddle" type="number" value="42" style="font-size:18px"/>
             </label>
             <label style="display:grid;gap:4px">
-              <b>Task 15 expected code (15 letters):</b>
-              <input id="setT15" type="text" value="ERFTLRTWUHTECHC" maxlength="15" style="font-size:18px;text-transform:uppercase"/>
+              <b>Task 15 expected code (9 letters):</b>
+              <input id="setT15" type="text" value="WURLECBHT" maxlength="9" style="font-size:18px;text-transform:uppercase"/>
             </label>
           </div>
           <button class="btn secondary" id="reset" style="width:fit-content">🔄 Reset Game</button>
         </div>
         <p class="tiny" style="margin-top:12px;padding:12px;background:rgba(255,255,255,.02);border-radius:8px">
-          <b>Note:</b> OTP digits collected from tokens: 3,7,9,1,8,4,2,5,6,0,8,3,5,7,4. First 6 unique in ascending order: <b>012345</b><br/>
-          <b>Riddle:</b> Example solution: 88 (thermostat) + 4 (letters in COOL) − 50 (mix value) = <b>42</b>. You can adjust the answer as needed in the control above.<br/>
-          <b>Task 15:</b> Sequence 7→1→13→4→9→2→15→8→3→11→5→14→6→10→12 should spell the 15-letter code from first letters of correct cooling component names
+          <b>Note:</b> OTP digits collected from tokens. First 6 unique in ascending order: <b>012345</b><br/>
+          <b>Riddle:</b> Example solution: 88 (thermostat) + 4 (letters in COOL) − 50 (mix value) = <b>42</b>.<br/>
+          <b>Task 15:</b> Sequence 1→2→3→4→5→6→7→8→9 should spell: Water pump→Upper radiator hose→Radiator→Lower radiator hose→Expansion tank→Cooling fan→Bleed hose→Heater core→Thermostat = <b>WURLECBHT</b>
         </p>
       </div>
     </details>
@@ -821,6 +879,10 @@
           <li>Bleed air after service to restore heater performance</li>
         </ul>
       </div>
+      <div style="padding:16px;background:rgba(106,227,255,.05);border-radius:10px">
+        <h3 style="margin-bottom:8px">🎥 Watch Introduction Video</h3>
+        <button class="btn" id="replayIntro" style="width:100%">▶️ Replay Introduction</button>
+      </div>
       <button class="btn" id="closeGuide" style="width:100%;padding:1rem">Return to Challenge</button>
     </div>
   </dialog>
@@ -840,27 +902,48 @@
   </dialog>
 
   <script>
-    // ===== CONFIG =====
-  const TEACHER_PASSWORD = "otto1876";
+    const TEACHER_PASSWORD = "otto1876";
     const PENALTY_SECONDS = 10;
     
-    // ===== UTILITIES =====
-  const $ = sel => document.querySelector(sel);
-  const $$ = sel => Array.from(document.querySelectorAll(sel));
+    const $ = sel => document.querySelector(sel);
+    const $$ = sel => Array.from(document.querySelectorAll(sel));
 
-  // ===== Multiplayer basic state =====
-  let playerName = localStorage.getItem('coolingName') || '';
-  let roomCode = localStorage.getItem('coolingRoom') || '';
-  const scoreByName = new Map(); // name -> { solved, time, updatedAt, room }
-  let bc; // local broadcast (same device, multi-tab)
-  // Signaling server (WebSocket) + BroadcastChannel for same-device tabs
-  let ws; // WebSocket signaling
-  let selfId = null;
-  const rtcPeers = new Map(); // id -> { pc, dc, name }
-  const rtcChannels = new Set();
-  const rtcConfig = { iceServers: [{ urls: 'stun:stun.l.google.com:19302' }] };
+    // Intro modal handlers
+    const introModal = $('#introModal');
+    const startGame = $('#startGame');
+    const skipIntro = $('#skipIntro');
+    const replayIntro = $('#replayIntro');
 
-    // State
+    const closeIntro = () => {
+      introModal.style.animation = 'fadeIn .3s reverse';
+      setTimeout(() => {
+        introModal.style.display = 'none';
+        // Apply saved theme after intro
+        const savedTheme = localStorage.getItem('coolingTheme') || 'icy';
+        applyTheme(savedTheme);
+      }, 300);
+    };
+
+    startGame?.addEventListener('click', closeIntro);
+    skipIntro?.addEventListener('click', closeIntro);
+    replayIntro?.addEventListener('click', () => {
+      $('#guide').close();
+      introModal.style.display = 'grid';
+      introModal.style.animation = 'fadeIn .5s';
+    });
+
+    // Multiplayer state
+    let playerName = localStorage.getItem('coolingName') || '';
+    let roomCode = localStorage.getItem('coolingRoom') || '';
+    const scoreByName = new Map();
+    let bc;
+    let ws;
+    let selfId = null;
+    const rtcPeers = new Map();
+    const rtcChannels = new Set();
+    const rtcConfig = { iceServers: [{ urls: 'stun:stun.l.google.com:19302' }] };
+
+    // Game state
     let soundEnabled = true;
     let wrongAnswers = 0;
     let lockoutAttempts = 0;
@@ -907,7 +990,7 @@
       }
     };
 
-    // Timer with penalties
+    // Timer
     let start = Date.now();
     setInterval(() => {
       const elapsed = Math.floor((Date.now() - start) / 1000) + timeOffset;
@@ -919,7 +1002,7 @@
       }
     }, 1000);
 
-    // Add penalty
+    // Penalty
     const addPenalty = () => {
       wrongAnswers++;
       timeOffset += PENALTY_SECONDS;
@@ -928,7 +1011,7 @@
       playSound(150, 0.3);
     };
 
-    // Show lockout
+    // Lockout
     const showLockout = (attempts) => {
       const seconds = attempts * 15;
       const overlay = document.createElement('div');
@@ -946,7 +1029,8 @@
       let remaining = seconds;
       const timer = setInterval(() => {
         remaining--;
-        $('#lockoutTimer').textContent = remaining;
+        const timerEl = document.getElementById('lockoutTimer');
+        if (timerEl) timerEl.textContent = remaining;
         if (remaining <= 0) {
           clearInterval(timer);
           overlay.remove();
@@ -974,11 +1058,9 @@
         }
       }
       while (digits.length < 6) digits.push('_');
-      // Map digits per player for unique codes
       const mapped = digits.map(d => d === '_' ? '_' : String(mapDigit(d)));
       $('#otp').textContent = mapped.join('');
 
-      // Broadcast progress to room (local + RTC)
       broadcastProgress();
     };
 
@@ -999,7 +1081,6 @@
       setTimeout(() => playSound(659.25, 0.15), 100);
       
       updateProgress();
-      // suspense broadcast will be shown on peers via handlers
     };
 
     const wrong = (msgEl, text = '❌ Incorrect. Try again!', el = null) => {
@@ -1013,7 +1094,7 @@
       }
     };
 
-    // Levenshtein distance for fuzzy matching
+    // Levenshtein distance
     const levenshtein = (a, b) => {
       if (a === b) return 0;
       const al = a.length, bl = b.length;
@@ -1035,25 +1116,20 @@
       return matrix[al][bl];
     };
 
-    // Canonical labels for Task 15 (cooling system)
+    // Task 15 canonical answers
     const canonicalT15 = [
-      'radiator',          // 1
-      'radiator cap',      // 2
-      'upper hose',        // 3
-      'thermostat housing',// 4
-      'thermostat',        // 5
-      'cylinder head',     // 6
-      'engine block',      // 7
-      'water pump',        // 8
-      'lower hose',        // 9
-      'heater core',       // 10
-      'heater hoses',      // 11
-      'cooling fan',       // 12
-      'fan shroud',        // 13
-      'expansion tank',    // 14
-      'temperature sensor' // 15
+      'water pump',              // 1
+      'upper radiator hose',     // 2
+      'radiator',                // 3
+      'lower radiator hose',     // 4
+      'expansion tank',          // 5
+      'cooling fan',             // 6
+      'bleed hose',              // 7
+      'heater core',             // 8
+      'thermostat'               // 9
     ];
 
+    // Checkers
     const checkers = {
       t1() {
         const a = $('#t1a').value, b = $('#t1b').value, c = $('#t1c').value, d = $('#t1d').value;
@@ -1091,9 +1167,9 @@
       },
       t8() {
         const val = $('#t8').value.trim().toUpperCase();
-        if (!val) return wrong($('#t8msg'), '❌ Enter three letters (C/P/O) for the thermostat state', $('#t8'));
+        if (!val) return wrong($('#t8msg'), '❌ Enter three letters (C/P/O)', $('#t8'));
         if (val.length !== 3) return wrong($('#t8msg'), '❌ Enter exactly three letters', $('#t8'));
-        if (!/^[CPO]{3}$/.test(val)) return wrong($('#t8msg'), '❌ Use only C, P, or O for each position', $('#t8'));
+        if (!/^[CPO]{3}$/.test(val)) return wrong($('#t8msg'), '❌ Use only C, P, or O', $('#t8'));
         const expected = 'CPO';
         val === expected ? award('t8', $('#t8msg')) : wrong($('#t8msg'), '❌ Think: cold, warm-up, operating temp', $('#t8'));
       },
@@ -1105,63 +1181,62 @@
       t10() {
         const v = parseInt($('#t10').value.trim(), 10);
         const ok = Number.isFinite(v) && v >= 118 && v <= 130;
-        ok ? award('t10', $('#t10msg')) : wrong($('#t10msg'), '❌ 50/50 mix boils well above 100°C under pressure', $('#t10'));
+        ok ? award('t10', $('#t10msg')) : wrong($('#t10msg'), '❌ 50/50 mix boils well above 100°C', $('#t10'));
       },
       t11() {
         const a = $('#t11_1').value;
         const b = $('#t11_2').value;
         const c = $('#t11_3').value;
         const ok = a === 'Convection' && b === 'Conduction' && c === 'Convection';
-        ok ? award('t11', $('#t11msg')) : wrong($('#t11msg'), '❌ Think: fluid motion vs through-solid vs air flow');
+        ok ? award('t11', $('#t11msg')) : wrong($('#t11msg'), '❌ Think: fluid vs solid vs air');
       },
       t12() {
         const low = parseFloat($('#t12low').value);
         const high = parseFloat($('#t12high').value);
         if (!Number.isFinite(low) || !Number.isFinite(high)) {
-          return wrong($('#t12msg'), '❌ Enter both low and high temperatures', $('#t12low'));
+          return wrong($('#t12msg'), '❌ Enter both temperatures', $('#t12low'));
         }
         if (low >= high) {
           return wrong($('#t12msg'), '❌ Low must be less than high', $('#t12low'));
         }
-        // Accept typical ranges like 80–90, 82–92, 85–95 etc.
         const okLow = low >= 80 && low <= 85;
         const okHigh = high >= 88 && high <= 92;
         const ok = okLow && okHigh;
-        ok ? award('t12', $('#t12msg')) : wrong($('#t12msg'), '❌ Most stats begin opening ~82–88°C and are open by ~90°C', $('#t12low'));
+        ok ? award('t12', $('#t12msg')) : wrong($('#t12msg'), '❌ Most open ~82–88°C to ~90°C', $('#t12low'));
       },
       t13() {
         const v = $('#t13').value.trim().toLowerCase().replace(/\s+/g, '');
         const ok = v === 'pump-thermostat-radiator-reservoir' || v === 'pump-stat-radiator-reservoir';
-        ok ? award('t13', $('#t13msg')) : wrong($('#t13msg'), '❌ Follow the riddle\'s sequence', $('#t13'));
+        ok ? award('t13', $('#t13msg')) : wrong($('#t13msg'), '❌ Follow the riddle sequence', $('#t13'));
       },
       t14() {
         const sel = document.querySelector('input[name="t14"]:checked');
         const ok = sel && sel.value === 'Top-to-bottom';
-        ok ? award('t14', $('#t14msg')) : wrong($('#t14msg'), '❌ Watch the arrows fall from top to bottom', null);
+        ok ? award('t14', $('#t14msg')) : wrong($('#t14msg'), '❌ Watch arrows fall top to bottom', null);
       },
       t15() {
-        const sequence = [7,1,13,4,9,2,15,8,3,11,5,14,6,10,12];
-        const ids = Array.from({length: 15}, (_, i) => `t15_${i+1}`);
+        const sequence = [1,2,3,4,5,6,7,8,9];
+        const ids = Array.from({length: 9}, (_, i) => `t15_${i+1}`);
         const vals = ids.map(id => ($('#' + id).value || '').trim());
         const enteredCode = ($('#t15code').value || '').trim().toUpperCase();
         const teacherCode = $('#setT15').value.trim().toUpperCase();
         
         if (!enteredCode) {
-          return wrong($('#t15msg'), '❌ Enter the decoded message from the first letters', $('#t15code'));
+          return wrong($('#t15msg'), '❌ Enter the decoded message', $('#t15code'));
         }
         
-        if (enteredCode.length !== 15) {
-          return wrong($('#t15msg'), '❌ The code must be exactly 15 letters', $('#t15code'));
+        if (enteredCode.length !== 9) {
+          return wrong($('#t15msg'), '❌ Code must be exactly 9 letters', $('#t15code'));
         }
         
         if (vals.some(v => !v)) {
-          return wrong($('#t15msg'), '❌ Please label all 15 components first', $('#' + ids.find(id => !$('#' + id).value)));
+          return wrong($('#t15msg'), '❌ Label all 9 components first', $('#' + ids.find(id => !$('#' + id).value)));
         }
 
         const letters = sequence.map(i => vals[i-1][0].toUpperCase()).join('');
         
         if (enteredCode !== letters) {
-          return wrong($('#t15msg'), `❌ Your code doesn't match the sequence. Following 7→1→13→... gives: <b>${letters}</b>`, $('#t15code'));
+          return wrong($('#t15msg'), `❌ Your code doesn't match. Sequence gives: <b>${letters}</b>`, $('#t15code'));
         }
         
         const lowerVals = vals.map(v => v.toLowerCase());
@@ -1175,7 +1250,7 @@
         }
 
         if (allClose && enteredCode === teacherCode) {
-          $('#t15msg').innerHTML = `<span class="ok">✓ Perfect! Components labeled correctly and message decoded: <b>${letters}</b></span>`;
+          $('#t15msg').innerHTML = `<span class="ok">✓ Perfect! Message decoded: <b>${letters}</b></span>`;
           ids.forEach(id => { 
             const el = $('#' + id); 
             el.classList.add('input-ok'); 
@@ -1185,9 +1260,9 @@
           $('#t15code').disabled = true;
           return award('t15', null);
         } else if (!allClose) {
-          return wrong($('#t15msg'), `❌ Some component labels need correction. Your sequence spells: <b>${letters}</b>`, $('#t15code'));
+          return wrong($('#t15msg'), `❌ Some labels need correction. Spells: <b>${letters}</b>`, $('#t15code'));
         } else {
-          return wrong($('#t15msg'), `❌ Message decoded as <b>${letters}</b> but doesn't match the engine's secret`, $('#t15code'));
+          return wrong($('#t15msg'), `❌ Decoded as <b>${letters}</b> but doesn't match engine secret`, $('#t15code'));
         }
       }
     };
@@ -1200,66 +1275,21 @@
 
     // Hints
     const hints = {
-      t1: [
-        '💡 Trace coolant from source to sink.',
-        '💡 Consider where energy is added vs. removed.'
-      ],
-      t2: [
-        '💡 Mover • Decider • Pressurizer • Cooler.',
-        '💡 Who spins? Who chooses? Who seals? Who sheds?'
-      ],
-      t3: [
-        '💡 Exchanger • Gatekeeper • Lifeblood • Bottle.',
-        '💡 The grid, the valve, the fluid, the spare.'
-      ],
-      t4: [
-        '💡 Aim for all-season protection.',
-        '💡 Balance freeze and boil protection.'
-      ],
-      t5: [
-        '💡 When wind is absent, heat lingers.',
-        '💡 Still air, rising temp.'
-      ],
-      t6: [
-        '💡 Convert from bar to psi using an approximate factor.',
-        '💡 Round to a sensible whole number.'
-      ],
-      t7: [
-        '💡 Take the first steps of the journey.',
-        '💡 Initials of the path.'
-      ],
-      t8: [
-        '💡 How does a thermostat behave as temperature rises?',
-        '💡 Consider cold start, warm-up, and operating temperature.'
-      ],
-      t9: [
-        '💡 No cabin warmth: trapped breath. Sweet clouds: a breach.',
-        '💡 Heater = air; sweet smoke = leak.'
-      ],
-      t10: [
-        '💡 Pressure and mixture raise boiling point above 100°C.',
-        '💡 Estimate an elevated boiling point under pressure.'
-      ],
-      t11: [
-        '💡 Distinguish fluid motion, through-metal transfer, and air motion.',
-        '💡 Which stage is dominated by which mechanism?'
-      ],
-      t12: [
-        '💡 Think about when it begins to open and when it’s open.',
-        '💡 Use a reasonable range for common automotive stats.'
-      ],
-      t13: [
-        '💡 Stir → gate → shed → store.',
-        '💡 Spin, threshold, fins, bottle.'
-      ],
-      t14: [
-        '💡 Watch the drops fall.',
-        '💡 Gravity’s direction.'
-      ],
-      t15: [
-        '💡 Name each, then read the route’s initials.',
-        '💡 Label first; path reveals the word.'
-      ]
+      t1: ['💡 Trace coolant from source to sink.', '💡 Where energy is added vs. removed.'],
+      t2: ['💡 Mover • Decider • Pressurizer • Cooler.', '💡 Who spins? Who chooses?'],
+      t3: ['💡 Exchanger • Gatekeeper • Lifeblood • Bottle.'],
+      t4: ['💡 Aim for all-season protection.', '💡 Balance freeze and boil.'],
+      t5: ['💡 When wind is absent, heat lingers.', '💡 Still air, rising temp.'],
+      t6: ['💡 Convert bar to psi.', '💡 Round sensibly.'],
+      t7: ['💡 First steps of journey.', '💡 Initials of path.'],
+      t8: ['💡 Thermostat behavior vs temperature.', '💡 Cold start, warm-up, operating.'],
+      t9: ['💡 No cabin warmth: trapped breath.', '💡 Sweet smoke = breach.'],
+      t10: ['💡 Pressure and mixture raise boiling.', '💡 Estimate elevated point.'],
+      t11: ['💡 Fluid motion vs through-metal.', '💡 Which mechanism dominates?'],
+      t12: ['💡 When it begins and when fully open.', '💡 Common automotive range.'],
+      t13: ['💡 Stir → gate → shed → store.', '💡 Spin, threshold, fins, bottle.'],
+      t14: ['💡 Watch the drops fall.', '💡 Gravity direction.'],
+      t15: ['💡 Name each, read route initials.', '💡 Label first; path reveals word.']
     };
 
     const pickRand = (n) => Math.floor(Math.random() * n);
@@ -1267,25 +1297,25 @@
       const id = btn.getAttribute('data-hint');
       const msg = $(`#${id}msg`);
       const pool = hints[id];
-      const text = Array.isArray(pool) ? pool[pickRand(pool.length)] : '💡 No hint available';
+      const text = Array.isArray(pool) ? pool[pickRand(pool.length)] : '💡 No hint';
       if (msg) msg.textContent = text;
     }));
 
-    // Guide dialog
+    // Guide
     $('#openGuide').onclick = () => $('#guide').showModal();
     $('#closeGuide').onclick = () => $('#guide').close();
 
-    // Riddle unlock
+    // Riddle
     $('#unlockRiddle').addEventListener('click', () => {
       const answer = parseInt($('#riddleAnswer').value);
       const correct = parseInt($('#setRiddle').value);
       if (answer === correct) {
-        $('#riddleMsg').innerHTML = '<span class="ok">✓ Riddle solved! OTP input unlocked.</span>';
+        $('#riddleMsg').innerHTML = '<span class="ok">✓ Riddle solved!</span>';
         $('#otpSection').style.display = 'block';
         playSound(659.25, 0.2);
       } else {
         addPenalty();
-        $('#riddleMsg').innerHTML = '<span class="no">❌ Incorrect. Review the riddle clues.</span>';
+        $('#riddleMsg').innerHTML = '<span class="no">❌ Incorrect.</span>';
         $('#riddleAnswer').classList.add('error');
         setTimeout(() => $('#riddleAnswer').classList.remove('error'), 300);
       }
@@ -1299,7 +1329,7 @@
       const out = $('#finalmsg');
       
       if (given === expected) {
-        out.innerHTML = '<span class="ok" style="font-size:20px">🎉 ENGINE REPAIRED! Mission Complete! 🏆</span>';
+        out.innerHTML = '<span class="ok" style="font-size:20px">🎉 ENGINE REPAIRED! 🏆</span>';
         makeConfetti();
         playSound(523.25, 0.15);
         setTimeout(() => playSound(659.25, 0.15), 150);
@@ -1307,7 +1337,7 @@
       } else {
         lockoutAttempts++;
         addPenalty();
-        out.innerHTML = `<span class="no">❌ Incorrect code. Check digit order!</span>`;
+        out.innerHTML = `<span class="no">❌ Incorrect code.</span>`;
         $('#final').classList.add('error');
         setTimeout(() => $('#final').classList.remove('error'), 300);
         showLockout(lockoutAttempts);
@@ -1347,7 +1377,7 @@
 
     // Reset
     $('#reset').addEventListener('click', () => {
-      if (confirm('Reset the entire game? All progress will be lost.')) {
+      if (confirm('Reset entire game?')) {
         location.reload();
       }
     });
@@ -1358,35 +1388,26 @@
       label.addEventListener('mouseleave', () => label.style.background = 'rgba(255,255,255,.02)');
     });
 
-// Theme manager
-const applyTheme = (name) => {
-  const root = document.documentElement;
+    // Theme
+    const applyTheme = (name) => {
+      const root = document.documentElement;
+      if (name === 'icy') {
+        root.setAttribute('data-theme', 'icy');
+      } else if (name === 'thermal') {
+        root.setAttribute('data-theme', 'thermal');
+      } else {
+        root.setAttribute('data-theme', 'icy');
+        name = 'icy';
+      }
+      localStorage.setItem('coolingTheme', name);
+    };
 
-  if (name === 'icy') {
-    root.setAttribute('data-theme', 'icy');
-  } else if (name === 'thermal') {
-    root.setAttribute('data-theme', 'thermal');
-  } else {
-    // Default to icy
-    root.setAttribute('data-theme', 'icy');
-    name = 'icy';
-  }
-
-  localStorage.setItem('coolingTheme', name);
-};
-
-// On page load, apply saved theme or default to icy
-const savedTheme = localStorage.getItem('coolingTheme');
-applyTheme(savedTheme);
-
-    // Init theme from storage
-    const savedTheme = localStorage.getItem('coolingTheme') || 'playful';
-    applyTheme(savedTheme);
+    const savedTheme = localStorage.getItem('coolingTheme') || 'icy';
     const themeSelect = $('#themeSelect');
     if (themeSelect) themeSelect.value = savedTheme;
     themeSelect?.addEventListener('change', (e) => applyTheme(e.target.value));
 
-    // ==== Multiplayer helpers ====
+    // Multiplayer helpers
     const makeRoomCode = () => Math.random().toString(36).slice(2, 6).toUpperCase();
     const nowSec = () => Math.floor((Date.now() - start) / 1000) + timeOffset;
 
@@ -1399,33 +1420,20 @@ applyTheme(savedTheme);
         .sort((a,b) => (b.solved - a.solved) || (a.time - b.time));
       list.innerHTML = rows.map(r => `
         <div class="row score-row" data-name="${r.name}" style="justify-content:space-between;border:1px solid var(--panel-border);border-radius:10px;padding:8px 12px">
-          <span><b>${r.name}</b> <span class="tiny" style="color:var(--muted)">(tasks ${r.solved}/15)</span></span>
+          <span><b>${r.name}</b> <span class="tiny" style="color:var(--muted)">(${r.solved}/15)</span></span>
           <span class="mono">${String(Math.floor(r.time/60)).padStart(2,'0')}:${String(r.time%60).padStart(2,'0')}</span>
         </div>`).join('');
     };
 
     const broadcast = (payload) => {
-      // Local tabs/windows
       try { bc?.postMessage(payload); } catch(e) {}
-      // P2P
       try { sendRTC(payload); } catch(e) {}
     };
 
     const showRemoteToast = (text) => {
       const el = document.createElement('div');
       el.textContent = text;
-      el.style.position = 'fixed';
-      el.style.left = '50%';
-      el.style.top = '16px';
-      el.style.transform = 'translateX(-50%)';
-      el.style.background = 'rgba(0,0,0,.7)';
-      el.style.color = 'white';
-      el.style.padding = '8px 12px';
-      el.style.borderRadius = '10px';
-      el.style.zIndex = '3000';
-      el.style.boxShadow = '0 6px 16px rgba(0,0,0,.35)';
-      el.style.fontWeight = '700';
-      el.style.letterSpacing = '.3px';
+      el.style.cssText = 'position:fixed;left:50%;top:16px;transform:translateX(-50%);background:rgba(0,0,0,.7);color:white;padding:8px 12px;border-radius:10px;z-index:3000;box-shadow:0 6px 16px rgba(0,0,0,.35);font-weight:700;letter-spacing:.3px';
       document.body.appendChild(el);
       setTimeout(()=>{ el.style.transition='opacity .4s'; el.style.opacity='0'; setTimeout(()=>el.remove(), 400); }, 1200);
     };
@@ -1451,22 +1459,36 @@ applyTheme(savedTheme);
       } catch(e) {}
     };
 
-    // ===== WebSocket signaling =====
     const connectWS = () => {
       try {
         const proto = location.protocol === 'https:' ? 'wss' : 'ws';
-        const url = `${proto}://${location.host}/ws`;
+        const host = location.host;
+        
+        if (!host || host === '' || location.protocol === 'file:') {
+          console.log('Running locally - P2P disabled');
+          return;
+        }
+        
+        const url = `${proto}://${host}/ws`;
         ws = new WebSocket(url);
-        ws.onopen = () => { if (roomCode) joinRoom(); };
+        
+        ws.onerror = () => {
+          console.log('WebSocket unavailable - P2P disabled');
+        };
+        
+        ws.onopen = () => { 
+          console.log('WebSocket connected');
+          if (roomCode) joinRoom(); 
+        };
+        
         ws.onmessage = (ev) => {
           let m = {};
           try { m = JSON.parse(ev.data); } catch(e) { return; }
           if (m.type === 'joined') {
             selfId = m.id;
-            // create offers to existing peers
             (m.peers||[]).forEach(p => ensurePeer(p.id, p.name, true));
           } else if (m.type === 'peer-joined') {
-            ensurePeer(m.id, m.name, false); // they will offer to us or we can choose to offer here
+            ensurePeer(m.id, m.name, false);
           } else if (m.type === 'peer-left') {
             closePeer(m.id);
           } else if (m.type === 'offer') {
@@ -1487,7 +1509,6 @@ applyTheme(savedTheme);
       } catch(e) {}
     };
 
-    // ===== WebRTC helpers =====
     const updateP2pStatus = () => {
       const n = Array.from(rtcChannels).filter(dc => dc.readyState === 'open').length;
       const el = $('#p2pCount'); if (el) el.textContent = String(n);
@@ -1497,7 +1518,10 @@ applyTheme(savedTheme);
       if (rtcPeers.has(id)) return rtcPeers.get(id);
       const pc = new RTCPeerConnection(rtcConfig);
       let dc = null;
-      pc.onconnectionstatechange = () => { updateP2pStatus(); if (pc.connectionState === 'failed' || pc.connectionState === 'closed') closePeer(id); };
+      pc.onconnectionstatechange = () => { 
+        updateP2pStatus(); 
+        if (pc.connectionState === 'failed' || pc.connectionState === 'closed') closePeer(id); 
+      };
       pc.ondatachannel = (ev) => { dc = ev.channel; attachDC(id, name, dc); };
       pc.onicecandidate = (ev) => {
         if (ev.candidate) sendWS({ type:'candidate', to: id, candidate: ev.candidate });
@@ -1570,13 +1594,12 @@ applyTheme(savedTheme);
       rtcChannels.forEach(dc => { if (dc.readyState === 'open') { try { dc.send(msg); } catch(e) {} } });
     };
 
-    // UI wiring for Multiplayer panel
     const nameInput = $('#playerName');
     const roomInput = $('#roomCodeInput');
     if (nameInput) nameInput.value = playerName;
     if (roomInput && roomCode) roomInput.value = roomCode;
-  initChannel();
-  connectWS();
+    initChannel();
+    connectWS();
 
     const updateLabels = () => {
       const r = $('#roomLabel'); if (r) r.textContent = roomCode || '—';
@@ -1596,10 +1619,8 @@ applyTheme(savedTheme);
       broadcastProgress();
     });
 
-    // Periodic heartbeat to keep scoreboard fresh
     setInterval(() => broadcastProgress(), 8000);
 
-  // ==== Per-player OTP mapping (seeded) ====
     const xmur3 = (str) => {
       let h = 1779033703 ^ str.length;
       for (let i = 0; i < str.length; i++) {
@@ -1631,7 +1652,7 @@ applyTheme(savedTheme);
         const j = Math.floor(rnd() * (i + 1));
         [arr[i], arr[j]] = [arr[j], arr[i]];
       }
-      return arr; // maps index digit -> mapped digit
+      return arr;
     };
 
     let currentPerm = getDigitPerm();
@@ -1641,9 +1662,13 @@ applyTheme(savedTheme);
       return currentPerm[n];
     };
 
-    // Refresh mapping when identity changes
     const refreshMapping = () => { currentPerm = getDigitPerm(); updateProgress(); };
-  nameInput?.addEventListener('change', () => { playerName = nameInput.value.trim(); localStorage.setItem('coolingName', playerName); refreshMapping(); updateLabels(); });
+    nameInput?.addEventListener('change', () => { 
+      playerName = nameInput.value.trim(); 
+      localStorage.setItem('coolingName', playerName); 
+      refreshMapping(); 
+      updateLabels(); 
+    });
 
     updateProgress();
   </script>
