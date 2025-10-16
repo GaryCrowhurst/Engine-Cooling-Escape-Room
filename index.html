@@ -273,7 +273,6 @@
       display:block;
     }
 
-    /* Intro Video Modal */
     .intro-modal {
       position: fixed;
       inset: 0;
@@ -445,8 +444,8 @@
 
     <section class="grid cols" id="tasks">
 
-      <!-- TASK 1 -->
-      <article class="panel task-card" data-task="t1" data-token="3">
+      <!-- TASK 1 - Token 0 -->
+      <article class="panel task-card" data-task="t1" data-token="0">
         <h2>Task 1 — Coolant Flow Order</h2>
         <p>Arrange the main cooling loop in the correct order (start anywhere, but keep the sequence correct):</p>
         <div class="grid" style="gap:8px">
@@ -460,11 +459,11 @@
           <button class="btn ghost" data-hint="t1">💡 Hint</button>
         </div>
         <div class="hint" id="t1msg" style="margin-top:8px"></div>
-        <div class="token">🎫 <b>3</b></div>
+        <div class="token">🎫 <b>0</b></div>
       </article>
 
-      <!-- TASK 2 -->
-      <article class="panel task-card" data-task="t2" data-token="7">
+      <!-- TASK 2 - Token 1 -->
+      <article class="panel task-card" data-task="t2" data-token="1">
         <h2>Task 2 — Cooling Component Functions</h2>
         <p>Match each cooling component to its primary function.</p>
         <div class="grid" style="grid-template-columns:1fr 1.2fr;gap:16px">
@@ -494,11 +493,11 @@
           <button class="btn ghost" data-hint="t2">💡 Hint</button>
         </div>
         <div class="hint" id="t2msg" style="margin-top:8px"></div>
-        <div class="token">🎫 <b>7</b></div>
+        <div class="token">🎫 <b>1</b></div>
       </article>
 
-      <!-- TASK 3 -->
-      <article class="panel task-card" data-task="t3" data-token="9">
+      <!-- TASK 3 - Token 2 -->
+      <article class="panel task-card" data-task="t3" data-token="2">
         <h2>Task 3 — Unscramble Cooling Terms</h2>
         <p>Unscramble each component:</p>
         <div class="grid" style="gap:10px">
@@ -512,11 +511,11 @@
           <button class="btn ghost" data-hint="t3">💡 Hint</button>
         </div>
         <div class="hint" id="t3msg" style="margin-top:8px"></div>
-        <div class="token">🎫 <b>9</b></div>
+        <div class="token">🎫 <b>2</b></div>
       </article>
 
-      <!-- TASK 4 -->
-      <article class="panel task-card" data-task="t4" data-token="1">
+      <!-- TASK 4 - Token 3 -->
+      <article class="panel task-card" data-task="t4" data-token="3">
         <h2>Task 4 — Recommended Mix</h2>
         <p>What's the recommended <b>coolant:water</b> mix for most climates?</p>
         <div class="row">
@@ -525,11 +524,11 @@
           <button class="btn ghost" data-hint="t4">💡 Hint</button>
         </div>
         <div class="hint" id="t4msg" style="margin-top:8px"></div>
-        <div class="token">🎫 <b>1</b></div>
+        <div class="token">🎫 <b>3</b></div>
       </article>
 
-      <!-- TASK 5 -->
-      <article class="panel task-card" data-task="t5" data-token="8">
+      <!-- TASK 5 - Token 4 -->
+      <article class="panel task-card" data-task="t5" data-token="4">
         <h2>Task 5 — Diagnostic Analysis</h2>
         <p>Engine <b>overheats at idle</b> but cools down at highway speeds. What's the most likely culprit?</p>
         <div class="grid" style="gap:8px;margin-top:8px">
@@ -551,11 +550,11 @@
           <button class="btn ghost" data-hint="t5">💡 Hint</button>
         </div>
         <div class="hint" id="t5msg" style="margin-top:8px"></div>
-        <div class="token">🎫 <b>8</b></div>
+        <div class="token">🎫 <b>4</b></div>
       </article>
 
-      <!-- TASK 6 -->
-      <article class="panel task-card" data-task="t6" data-token="4">
+      <!-- TASK 6 - Token 5 -->
+      <article class="panel task-card" data-task="t6" data-token="5">
         <h2>Task 6 — Pressure Conversion</h2>
         <p>A common radiator cap is rated <span class="mono badge">1.1 bar</span>. Approximate this pressure in <b>psi</b> (integer).</p>
         <div class="row">
@@ -564,11 +563,11 @@
           <button class="btn ghost" data-hint="t6">💡 Hint</button>
         </div>
         <div id="t6msg" class="hint" style="margin-top:10px"></div>
-        <div class="token">🎫 <b>4</b></div>
+        <div class="token">🎫 <b>5</b></div>
       </article>
 
-      <!-- TASK 7 -->
-      <article class="panel task-card" data-task="t7" data-token="2">
+      <!-- TASK 7 - Token 6 -->
+      <article class="panel task-card" data-task="t7" data-token="6">
         <h2>Task 7 — Flow Initials</h2>
         <p>Enter the initials of the primary coolant flow path in order.</p>
         <div class="row">
@@ -577,64 +576,52 @@
           <button class="btn ghost" data-hint="t7">💡 Hint</button>
         </div>
         <div class="hint" id="t7msg" style="margin-top:8px"></div>
-        <div class="token">🎫 <b>2</b></div>
+        <div class="token">🎫 <b>6</b></div>
       </article>
 
-      <!-- TASK 8 -->
-      <article class="panel task-card" data-task="t8" data-token="5" style="grid-column:span 2">
+      <!-- TASK 8 - Token 7 -->
+      <article class="panel task-card" data-task="t8" data-token="7" style="grid-column:span 2">
         <h2>Task 8 — Thermostat States</h2>
-        <p>Three snapshots of engine temperature. For each, enter <b>C</b>=Closed, <b>P</b>=Partial, or <b>O</b>=Open for <b>30°C</b>, <b>80°C</b>, <b>95°C</b>.</p>
-        <div style="display:grid;grid-template-columns:1fr;gap:12px;margin:16px 0">
-          <div class="car-diagram">
-            <svg viewBox="0 0 800 200" style="width:100%;height:auto">
-              <text x="130" y="30" font-size="20" fill="currentColor" font-weight="bold">30°C</text>
-              <text x="390" y="30" font-size="20" fill="currentColor" font-weight="bold">80°C</text>
-              <text x="650" y="30" font-size="20" fill="currentColor" font-weight="bold">95°C</text>
-              <rect x="50" y="50" width="160" height="120" rx="10" fill="none" stroke="var(--accent)" stroke-width="3"/>
-              <rect x="310" y="50" width="160" height="120" rx="10" fill="none" stroke="var(--accent)" stroke-width="3"/>
-              <rect x="570" y="50" width="160" height="120" rx="10" fill="none" stroke="var(--accent)" stroke-width="3"/>
-              <circle cx="130" cy="110" r="30" fill="none" stroke="var(--bad)" stroke-width="4"/>
-              <line x1="130" y1="110" x2="130" y2="85" stroke="var(--bad)" stroke-width="3"/>
-              <circle cx="390" cy="110" r="30" fill="none" stroke="var(--warn)" stroke-width="4"/>
-              <path d="M 390 110 L 410 95" stroke="var(--warn)" stroke-width="3"/>
-              <circle cx="650" cy="110" r="30" fill="none" stroke="var(--good)" stroke-width="4"/>
-              <line x1="650" y1="110" x2="670" y2="110" stroke="var(--good)" stroke-width="3"/>
-            </svg>
-          </div>
+        <p>A thermostat responds to engine temperature. For each temperature below, determine its state:</p>
+        <div style="padding:16px;background:rgba(106,227,255,.05);border-left:4px solid var(--accent);border-radius:8px;margin:16px 0">
+          <p style="margin:8px 0"><b>30°C</b> — Engine just started, still cold</p>
+          <p style="margin:8px 0"><b>80°C</b> — Engine warming up, approaching operating temperature</p>
+          <p style="margin:8px 0"><b>95°C</b> — Engine at full operating temperature</p>
         </div>
+        <p class="tiny">Enter the thermostat state for each: <b>C</b>=Closed, <b>P</b>=Partial, <b>O</b>=Open</p>
         <div class="row">
           <input id="t8" class="mono" placeholder="3 letters (C/P/O)" maxlength="3" style="width:160px;font-size:18px;text-align:center;text-transform:uppercase"/>
           <button class="btn" data-check="t8">Submit</button>
           <button class="btn ghost" data-hint="t8">💡 Hint</button>
         </div>
         <div class="hint" id="t8msg" style="margin-top:8px"></div>
-        <div class="token">🎫 <b>5</b></div>
+        <div class="token">🎫 <b>7</b></div>
       </article>
 
-      <!-- TASK 9 -->
-      <article class="panel task-card" data-task="t9" data-token="6">
+      <!-- TASK 9 - Token 8 -->
+      <article class="panel task-card" data-task="t9" data-token="8">
         <h2>Task 9 — Symptom Correlation</h2>
         <p>Match each symptom to the most likely issue:</p>
         <div class="grid" style="grid-template-columns:1.5fr 1fr;gap:12px;align-items:center">
           <div><b>1.</b> No cabin heat, engine at normal temp</div>
-          <select id="t9a"><option>—</option><option>Heater core/Airlock</option><option>Head gasket</option><option>Radiator cap/Overflow</option></select>
+          <select id="t9a"><option>—</option><option>Heater core/Airlock</option><option>Head gasket</option><option>Thermostat stuck open</option></select>
           
           <div><b>2.</b> White smoke with sweet smell</div>
-          <select id="t9b"><option>—</option><option>Heater core/Airlock</option><option>Head gasket</option><option>Radiator cap/Overflow</option></select>
+          <select id="t9b"><option>—</option><option>Heater core/Airlock</option><option>Head gasket</option><option>Thermostat stuck open</option></select>
           
-          <div><b>3.</b> Coolant loss, no obvious leak</div>
-          <select id="t9c"><option>—</option><option>Heater core/Airlock</option><option>Head gasket</option><option>Radiator cap/Overflow</option></select>
+          <div><b>3.</b> Coolant loss, no external leak visible</div>
+          <select id="t9c"><option>—</option><option>Heater core/Airlock</option><option>Head gasket</option><option>Thermostat stuck open</option></select>
         </div>
         <div class="row" style="margin-top:12px">
           <button class="btn" data-check="t9">Submit</button>
           <button class="btn ghost" data-hint="t9">💡 Hint</button>
         </div>
         <div class="hint" id="t9msg" style="margin-top:8px"></div>
-        <div class="token">🎫 <b>6</b></div>
+        <div class="token">🎫 <b>8</b></div>
       </article>
 
-      <!-- TASK 10 -->
-      <article class="panel task-card" data-task="t10" data-token="0">
+      <!-- TASK 10 - Token 9 -->
+      <article class="panel task-card" data-task="t10" data-token="9">
         <h2>Task 10 — Boiling Point (50/50)</h2>
         <p>Approximate the boiling point in °C of a <b>50/50</b> coolant mix under a pressurized cap.</p>
         <div class="row">
@@ -643,13 +630,13 @@
           <button class="btn ghost" data-hint="t10">💡 Hint</button>
         </div>
         <div class="hint" id="t10msg" style="margin-top:8px"></div>
-        <div class="token">🎫 <b>0</b></div>
+        <div class="token">🎫 <b>9</b></div>
       </article>
 
-      <!-- TASK 11 -->
-      <article class="panel task-card" data-task="t11" data-token="8">
+      <!-- TASK 11 - Token 1 (duplicate) -->
+      <article class="panel task-card" data-task="t11" data-token="1">
         <h2>Task 11 — Heat Transfer Modes</h2>
-        <p>In a radiator, pick the <b>dominant</b> heat transfer mode for each stage.</p>
+        <p>In a radiator, identify the <b>three different</b> heat transfer modes at each stage (use each mode once).</p>
         <div class="grid" style="grid-template-columns:1.4fr 1fr;gap:10px;align-items:center">
           <div>1. Coolant inside tube → tube wall</div>
           <select id="t11_1"><option value="">—</option><option>Conduction</option><option>Convection</option><option>Radiation</option></select>
@@ -663,11 +650,11 @@
           <button class="btn ghost" data-hint="t11">💡 Hint</button>
         </div>
         <div class="hint" id="t11msg" style="margin-top:8px"></div>
-        <div class="token">🎫 <b>8</b></div>
+        <div class="token">🎫 <b>1</b></div>
       </article>
 
-      <!-- TASK 12 -->
-      <article class="panel task-card" data-task="t12" data-token="3">
+      <!-- TASK 12 - Token 2 (duplicate) -->
+      <article class="panel task-card" data-task="t12" data-token="2">
         <h2>Task 12 — Thermostat Opening Range</h2>
         <p>Enter a sensible <b>opening range</b> in °C.</p>
         <div class="row">
@@ -678,11 +665,11 @@
           <button class="btn ghost" data-hint="t12">💡 Hint</button>
         </div>
         <div class="hint" id="t12msg" style="margin-top:8px"></div>
-        <div class="token">🎫 <b>3</b></div>
+        <div class="token">🎫 <b>2</b></div>
       </article>
 
-      <!-- TASK 13 -->
-      <article class="panel task-card" data-task="t13" data-token="5">
+      <!-- TASK 13 - Token 3 (duplicate) -->
+      <article class="panel task-card" data-task="t13" data-token="3">
         <h2>Task 13 — The Cooling Riddle</h2>
         <div style="padding:16px;background:rgba(106,227,255,.05);border-left:4px solid var(--accent);border-radius:8px;margin:12px 0">
           <p style="font-style:italic;margin:0;line-height:1.7">
@@ -692,18 +679,31 @@
             Then keep some spare in tank that's laid."
           </p>
         </div>
-        <p class="tiny">Enter the four words separated by dashes.</p>
-        <div class="row">
-          <input id="t13" placeholder="word-word-word-word" style="flex:1;min-width:200px"/>
+        <p class="tiny">Identify the four cooling components described:</p>
+        <div class="grid" style="gap:10px;margin-top:12px">
+          <label><b>1.</b> "I start at rest and keep things cool"
+            <input id="t13a" placeholder="component" style="width:100%"/>
+          </label>
+          <label><b>2.</b> "I open just above a pool"
+            <input id="t13b" placeholder="component" style="width:100%"/>
+          </label>
+          <label><b>3.</b> "I shed my heat with windy aid"
+            <input id="t13c" placeholder="component" style="width:100%"/>
+          </label>
+          <label><b>4.</b> "Then keep some spare in tank that's laid"
+            <input id="t13d" placeholder="component" style="width:100%"/>
+          </label>
+        </div>
+        <div class="row" style="margin-top:12px">
           <button class="btn" data-check="t13">Submit</button>
           <button class="btn ghost" data-hint="t13">💡 Hint</button>
         </div>
         <div class="hint" id="t13msg" style="margin-top:8px"></div>
-        <div class="token">🎫 <b>5</b></div>
+        <div class="token">🎫 <b>3</b></div>
       </article>
 
-      <!-- TASK 14 -->
-      <article class="panel task-card" data-task="t14" data-token="7">
+      <!-- TASK 14 - Token 4 (duplicate) -->
+      <article class="panel task-card" data-task="t14" data-token="4">
         <h2>Task 14 — Radiator Flow Direction</h2>
         <p>Watch the animation and select the flow direction shown.</p>
         <div style="margin-top:8px;border-radius:10px;overflow:hidden;border:1px solid rgba(255,255,255,.06);display:grid;place-items:center;padding:12px">
@@ -739,11 +739,11 @@
           <button class="btn ghost" data-hint="t14">💡 Hint</button>
         </div>
         <div class="hint" id="t14msg" style="margin-top:8px"></div>
-        <div class="token">🎫 <b>7</b></div>
+        <div class="token">🎫 <b>4</b></div>
       </article>
 
-      <!-- TASK 15 -->
-      <article class="panel task-card" data-task="t15" data-token="4" style="grid-column:1 / -1">
+      <!-- TASK 15 - Token 5 (duplicate) -->
+      <article class="panel task-card" data-task="t15" data-token="5" style="grid-column:1 / -1">
         <h2>Task 15 — Decode the Cooling System</h2>
         <p>Label all 9 numbered parts in the cooling system diagram. Then take the <b>first letter</b> of each along the path to reveal the message.</p>
         
@@ -786,7 +786,7 @@
           <button class="btn ghost" data-hint="t15">💡 Hint</button>
         </div>
         <div class="hint" id="t15msg" style="margin-top:8px"></div>
-        <div class="token">🎫 <b>4</b></div>
+        <div class="token">🎫 <b>5</b></div>
       </article>
 
     </section>
@@ -842,7 +842,7 @@
           <button class="btn secondary" id="reset" style="width:fit-content">🔄 Reset Game</button>
         </div>
         <p class="tiny" style="margin-top:12px;padding:12px;background:rgba(255,255,255,.02);border-radius:8px">
-          <b>Note:</b> OTP digits collected from tokens. First 6 unique in ascending order: <b>012345</b><br/>
+          <b>Note:</b> OTP digits collected from tokens: 0,1,2,3,4,5,6,7,8,9,1,2,3,4,5. First 6 unique in ascending order: <b>012345</b><br/>
           <b>Riddle:</b> Example solution: 88 (thermostat) + 4 (letters in COOL) − 50 (mix value) = <b>42</b>.<br/>
           <b>Task 15:</b> Sequence 1→2→3→4→5→6→7→8→9 should spell: Water pump→Upper radiator hose→Radiator→Lower radiator hose→Expansion tank→Cooling fan→Bleed hose→Heater core→Thermostat = <b>WURLECBHT</b>
         </p>
@@ -918,7 +918,6 @@
       introModal.style.animation = 'fadeIn .3s reverse';
       setTimeout(() => {
         introModal.style.display = 'none';
-        // Apply saved theme after intro
         const savedTheme = localStorage.getItem('coolingTheme') || 'icy';
         applyTheme(savedTheme);
       }, 300);
@@ -1118,24 +1117,37 @@
 
     // Task 15 canonical answers
     const canonicalT15 = [
-      'water pump',              // 1
-      'upper radiator hose',     // 2
-      'radiator',                // 3
-      'lower radiator hose',     // 4
-      'expansion tank',          // 5
-      'cooling fan',             // 6
-      'bleed hose',              // 7
-      'heater core',             // 8
-      'thermostat'               // 9
+      'water pump',
+      'upper radiator hose',
+      'radiator',
+      'lower radiator hose',
+      'expansion tank',
+      'cooling fan',
+      'bleed hose',
+      'heater core',
+      'thermostat'
     ];
 
     // Checkers
     const checkers = {
       t1() {
         const a = $('#t1a').value, b = $('#t1b').value, c = $('#t1c').value, d = $('#t1d').value;
-        const seq = [a,b,c,d].join('>');
-        const ok = seq === 'Water Pump>Engine Block>Thermostat>Radiator';
-        ok ? award('t1', $('#t1msg')) : wrong($('#t1msg'), '❌ Follow: Pump → Engine → Thermostat → Radiator');
+        if (!a || !b || !c || !d) return wrong($('#t1msg'), '❌ Please select all four components');
+        
+        // Check if it's a valid cycle (any starting point is ok as long as sequence is correct)
+        const sequence = [a, b, c, d];
+        const validCycles = [
+          ['Water Pump', 'Engine Block', 'Thermostat', 'Radiator'],
+          ['Engine Block', 'Thermostat', 'Radiator', 'Water Pump'],
+          ['Thermostat', 'Radiator', 'Water Pump', 'Engine Block'],
+          ['Radiator', 'Water Pump', 'Engine Block', 'Thermostat']
+        ];
+        
+        const isValid = validCycles.some(cycle => 
+          cycle.every((item, idx) => item === sequence[idx])
+        );
+        
+        isValid ? award('t1', $('#t1msg')) : wrong($('#t1msg'), '❌ Check the flow sequence: Pump → Engine → Thermostat → Radiator');
       },
       t2() {
         const ok = $('#t2_1').value === 'C' && $('#t2_2').value === 'B' && $('#t2_3').value === 'D' && $('#t2_4').value === 'A';
@@ -1162,8 +1174,11 @@
         ok ? award('t6', $('#t6msg')) : wrong($('#t6msg'), '❌ ~14.5 psi per bar; try rounding', $('#t6code'));
       },
       t7() {
-        const ok = $('#t7').value.trim().toUpperCase() === 'PETR';
-        ok ? award('t7', $('#t7msg')) : wrong($('#t7msg'), '❌ Take first letter of each word', $('#t7'));
+        const answer = $('#t7').value.trim().toUpperCase();
+        // Accept any valid starting point: PETR, ETRP, TRPE, RPET
+        const validCycles = ['PETR', 'ETRP', 'TRPE', 'RPET'];
+        const ok = validCycles.includes(answer);
+        ok ? award('t7', $('#t7msg')) : wrong($('#t7msg'), '❌ Use first letter of each component in flow order', $('#t7'));
       },
       t8() {
         const val = $('#t8').value.trim().toUpperCase();
@@ -1175,8 +1190,8 @@
       },
       t9() {
         const a = $('#t9a').value, b = $('#t9b').value, c = $('#t9c').value;
-        const ok = a === 'Heater core/Airlock' && b === 'Head gasket' && c === 'Radiator cap/Overflow';
-        ok ? award('t9', $('#t9msg')) : wrong($('#t9msg'), '❌ Match symptom to system area');
+        const ok = a === 'Heater core/Airlock' && b === 'Head gasket' && c === 'Head gasket';
+        ok ? award('t9', $('#t9msg')) : wrong($('#t9msg'), '❌ Think: internal vs external leaks, airflow blockage');
       },
       t10() {
         const v = parseInt($('#t10').value.trim(), 10);
@@ -1187,8 +1202,15 @@
         const a = $('#t11_1').value;
         const b = $('#t11_2').value;
         const c = $('#t11_3').value;
-        const ok = a === 'Convection' && b === 'Conduction' && c === 'Convection';
-        ok ? award('t11', $('#t11msg')) : wrong($('#t11msg'), '❌ Think: fluid vs solid vs air');
+        
+        // Check for duplicates
+        if (a === b || b === c || a === c) {
+          return wrong($('#t11msg'), '❌ Use each heat transfer mode once (no duplicates)');
+        }
+        
+        // Check correct answers: Convection, Conduction, Radiation
+        const ok = a === 'Convection' && b === 'Conduction' && c === 'Radiation';
+        ok ? award('t11', $('#t11msg')) : wrong($('#t11msg'), '❌ Think: fluid motion, through-solid, and thermal emission');
       },
       t12() {
         const low = parseFloat($('#t12low').value);
@@ -1205,9 +1227,30 @@
         ok ? award('t12', $('#t12msg')) : wrong($('#t12msg'), '❌ Most open ~82–88°C to ~90°C', $('#t12low'));
       },
       t13() {
-        const v = $('#t13').value.trim().toLowerCase().replace(/\s+/g, '');
-        const ok = v === 'pump-thermostat-radiator-reservoir' || v === 'pump-stat-radiator-reservoir';
-        ok ? award('t13', $('#t13msg')) : wrong($('#t13msg'), '❌ Follow the riddle sequence', $('#t13'));
+        const normalize = (str) => str.trim().toLowerCase().replace(/[^a-z]/g, '');
+        const a = normalize($('#t13a').value);
+        const b = normalize($('#t13b').value);
+        const c = normalize($('#t13c').value);
+        const d = normalize($('#t13d').value);
+        
+        // Flexible matching
+        const checkMatch = (input, validOptions) => validOptions.some(opt => input === normalize(opt));
+        
+        const ok1 = checkMatch(a, ['pump', 'water pump', 'waterpump']);
+        const ok2 = checkMatch(b, ['thermostat', 'stat', 'tstat']);
+        const ok3 = checkMatch(c, ['radiator', 'rad']);
+        const ok4 = checkMatch(d, ['reservoir', 'expansion tank', 'expansiontank', 'tank', 'overflow tank']);
+        
+        if (ok1 && ok2 && ok3 && ok4) {
+          award('t13', $('#t13msg'));
+        } else {
+          let hint = '❌ Check: ';
+          if (!ok1) hint += '1️⃣(spins) ';
+          if (!ok2) hint += '2️⃣(opens at temp) ';
+          if (!ok3) hint += '3️⃣(cools with air) ';
+          if (!ok4) hint += '4️⃣(stores extra) ';
+          wrong($('#t13msg'), hint);
+        }
       },
       t14() {
         const sel = document.querySelector('input[name="t14"]:checked');
@@ -1233,36 +1276,61 @@
           return wrong($('#t15msg'), '❌ Label all 9 components first', $('#' + ids.find(id => !$('#' + id).value)));
         }
 
+        // Flexible canonical answers
+        const flexibleCanonical = [
+          ['water pump', 'pump', 'waterpump'],
+          ['upper radiator hose', 'upper hose', 'top radiator hose', 'top hose', 'upper rad hose'],
+          ['radiator', 'rad'],
+          ['lower radiator hose', 'lower hose', 'bottom radiator hose', 'bottom hose', 'lower rad hose'],
+          ['expansion tank', 'expansiontank', 'reservoir', 'overflow tank', 'coolant reservoir'],
+          ['cooling fan', 'fan', 'radiator fan'],
+          ['bleed hose', 'bleed line', 'bleed valve', 'air bleed'],
+          ['heater core', 'heater matrix', 'heatercore'],
+          ['thermostat', 'stat', 'tstat']
+        ];
+
+        const normalize = (str) => str.toLowerCase().replace(/[^a-z]/g, '');
+        
+        // Check each answer
+        const correctness = vals.map((val, idx) => {
+          const normVal = normalize(val);
+          const validOptions = flexibleCanonical[idx].map(normalize);
+          return validOptions.includes(normVal);
+        });
+
+        // Update input styling
+        ids.forEach((id, idx) => {
+          const el = $('#' + id);
+          if (correctness[idx]) {
+            el.classList.add('input-ok');
+            el.classList.remove('error');
+          } else {
+            el.classList.add('error');
+            el.classList.remove('input-ok');
+            setTimeout(() => el.classList.remove('error'), 300);
+          }
+        });
+
+        const allCorrect = correctness.every(c => c);
         const letters = sequence.map(i => vals[i-1][0].toUpperCase()).join('');
         
-        if (enteredCode !== letters) {
-          return wrong($('#t15msg'), `❌ Your code doesn't match. Sequence gives: <b>${letters}</b>`, $('#t15code'));
+        if (!allCorrect) {
+          const wrongIndexes = correctness.map((c, i) => c ? null : i+1).filter(Boolean);
+          return wrong($('#t15msg'), `❌ Check labels: #${wrongIndexes.join(', #')}. Check spelling! Sequence spells: <b>${letters}</b>`, $('#t15code'));
         }
         
-        const lowerVals = vals.map(v => v.toLowerCase());
-        let allClose = true;
-        for (let i = 0; i < canonicalT15.length; i++) {
-          const a = lowerVals[i] || '';
-          const b = canonicalT15[i] || '';
-          const dist = levenshtein(a, b);
-          const threshold = Math.ceil(Math.max(a.length, b.length) * 0.25);
-          if (dist > threshold) { allClose = false; break; }
+        if (enteredCode !== letters) {
+          return wrong($('#t15msg'), `❌ Your code doesn't match the first letters. Sequence 1→2→3→... gives: <b>${letters}</b>`, $('#t15code'));
         }
-
-        if (allClose && enteredCode === teacherCode) {
-          $('#t15msg').innerHTML = `<span class="ok">✓ Perfect! Message decoded: <b>${letters}</b></span>`;
-          ids.forEach(id => { 
-            const el = $('#' + id); 
-            el.classList.add('input-ok'); 
-            el.disabled = true; 
-          });
+        
+        if (enteredCode === teacherCode) {
+          $('#t15msg').innerHTML = `<span class="ok">✓ Perfect! All components labeled correctly! Message: <b>${letters}</b></span>`;
+          ids.forEach(id => { $('#' + id).disabled = true; });
           $('#t15code').classList.add('input-ok');
           $('#t15code').disabled = true;
           return award('t15', null);
-        } else if (!allClose) {
-          return wrong($('#t15msg'), `❌ Some labels need correction. Spells: <b>${letters}</b>`, $('#t15code'));
         } else {
-          return wrong($('#t15msg'), `❌ Decoded as <b>${letters}</b> but doesn't match engine secret`, $('#t15code'));
+          return wrong($('#t15msg'), `❌ Message decoded as <b>${letters}</b> but doesn't match expected code`, $('#t15code'));
         }
       }
     };
@@ -1323,13 +1391,32 @@
 
     // Final unlock
     $('#unlock').addEventListener('click', () => {
-      const base = $('#setOtp').value.trim();
-      const expected = base.split('').map(mapDigit).join('');
+      // Get the actual collected OTP digits (first 6 unique)
+      const order = ['t1','t2','t3','t4','t5','t6','t7','t8','t9','t10','t11','t12','t13','t14','t15'];
+      const collectedDigits = [];
+      const seen = new Set();
+      
+      for (const id of order) {
+        if (otpDigits.has(id)) {
+          const d = otpDigits.get(id);
+          if (!seen.has(d) && collectedDigits.length < 6) {
+            collectedDigits.push(parseInt(d, 10));
+            seen.add(d);
+          }
+        }
+      }
+      
+      // Map the collected digits
+      const mappedDigits = collectedDigits.map(mapDigit);
+      
+      // Sort the mapped digits in ascending order
+      const sortedMapped = [...mappedDigits].sort((a, b) => a - b).join('');
+      
       const given = $('#final').value.trim();
       const out = $('#finalmsg');
       
-      if (given === expected) {
-        out.innerHTML = '<span class="ok" style="font-size:20px">🎉 ENGINE REPAIRED! 🏆</span>';
+      if (given === sortedMapped) {
+        out.innerHTML = '<span class="ok" style="font-size:20px">🎉 ENGINE REPAIRED! Mission Complete! 🏆</span>';
         makeConfetti();
         playSound(523.25, 0.15);
         setTimeout(() => playSound(659.25, 0.15), 150);
@@ -1337,7 +1424,7 @@
       } else {
         lockoutAttempts++;
         addPenalty();
-        out.innerHTML = `<span class="no">❌ Incorrect code.</span>`;
+        out.innerHTML = `<span class="no">❌ Incorrect code. Expected: <b>${sortedMapped}</b></span>`;
         $('#final').classList.add('error');
         setTimeout(() => $('#final').classList.remove('error'), 300);
         showLockout(lockoutAttempts);
