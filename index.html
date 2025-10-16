@@ -1358,14 +1358,26 @@
       label.addEventListener('mouseleave', () => label.style.background = 'rgba(255,255,255,.02)');
     });
 
-    // Theme manager
-    const applyTheme = (name) => {
-      const root = document.documentElement;
-      if (name === 'icy') root.setAttribute('data-theme','icy');
-      else if (name === 'thermal') root.setAttribute('data-theme','thermal');
-      else root.removeAttribute('data-theme'); // default = playful
-      localStorage.setItem('coolingTheme', name);
-    };
+// Theme manager
+const applyTheme = (name) => {
+  const root = document.documentElement;
+
+  if (name === 'icy') {
+    root.setAttribute('data-theme', 'icy');
+  } else if (name === 'thermal') {
+    root.setAttribute('data-theme', 'thermal');
+  } else {
+    // Default to icy
+    root.setAttribute('data-theme', 'icy');
+    name = 'icy';
+  }
+
+  localStorage.setItem('coolingTheme', name);
+};
+
+// On page load, apply saved theme or default to icy
+const savedTheme = localStorage.getItem('coolingTheme');
+applyTheme(savedTheme);
 
     // Init theme from storage
     const savedTheme = localStorage.getItem('coolingTheme') || 'playful';
